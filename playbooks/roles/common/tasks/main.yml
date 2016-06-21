@@ -1,0 +1,90 @@
+---
+- name: enable epel
+  yum: name=epel-release state=latest
+
+- name: upgrade all packages
+  yum: name=* state=latest
+
+- name: Install git
+  yum: name=git state=present
+
+- name: Install docker
+  yum: name=docker state=present
+
+- name: Install python
+  yum: name=python state=present
+
+- name: Install python-devel
+  yum: name=python-devel state=present
+
+- name: Install syslog
+  yum: name=syslog
+
+- name: Install pip
+  command: easy_install pip
+
+- name: Install virtualenv
+  command: pip install virtualenv
+
+- name: Install docker-py
+  command: pip install docker-py
+
+- name: Ensure docker-compose is installed and available
+  get_url:
+      url : https://github.com/docker/compose/releases/download/1.7.0-rc1/docker-compose-{{ ansible_system }}-{{ ansible_userspace_architecture }}
+      dest: /usr/local/bin/docker-compose
+      mode: 0755
+
+- name: Enable docker daemon in systemd
+  service:
+      enabled=yes
+      name=docker
+      state=started
+
+- name: Install the 'Development tools' package group
+  yum: name="@Development tools" state=present
+
+
+- name: Install nfs-utils
+  yum: name=nfs-utils state=present
+
+# - name: Install nfs-utils-lib
+#   yum: name=nfs-utils-lib state=present
+
+- name: Create /designsafe directory
+  file: path=/designsafe state=directory
+
+- name: Create /designsafe/media directory
+  file: path=/designsafe/media state=directory
+
+- name: Create docker group
+  group: name=docker state=present
+
+- name: Create portal user
+  user: name=portal shell=/bin/bash groups=docker append=yes
+
+#   ####################still needed now that using docker-compose-native?
+# - name: Create /designsafe/certs directory
+#   file: path=/designsafe/certs state=directory
+
+# - name: Create /designsafe/certs/ef directory
+#   file: path=/designsafe/certs/ef state=directory
+
+# - name: Copy EF TLS certs
+#   copy: src={{ EF_TLS_loc }} dest=/designsafe/certs
+
+# - name: Create /designsafe/certs/www directory
+#   file: path=/designsafe/certs/www state=directory
+
+# - name: Copy main site TLS certs
+#   copy: src={{ main_TLS_loc }} dest=/designsafe/certs
+#   ####################still needed now that using docker-compose-native?
+
+- name: Create /designsafe/redis_data directory
+  file: path=/designsafe/redis_data state=directory
+
+- name: Create /designsafe/conf directory
+  file: path=/designsafe/conf state=directory
+
+- name: Create /corral-repl/tacc/NHERI
+  mount: name=/corral-repl/tacc/NHERI src=129.114.52.21:/corral-repl/tacc/NHERI fstype=nfs opts=rw,nosuid,rsize=1048576,wsize=1048576,intr,nfsvers=3,tcp,addr=129.114.52.21 state=present

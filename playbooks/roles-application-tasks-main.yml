@@ -1,0 +1,9 @@
+---
+# file: roles/application/tasks/main.yml
+- name: Pull mysql image
+  command: docker pull mysql:5.5
+- name: Checkout application repository
+  git: repo=https://{{ githubuser }}:{{ githubpassword }}@github.com/{{ github_repo )) dest=/project/code/repo version={{ app_version }}
+- name: Build application docker image
+  command: docker build -t {{ docker_image }}:{{ app_version }} /project/code/repo
+  notify: restart app-service

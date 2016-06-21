@@ -1,0 +1,27 @@
+---
+# file: roles/docker/tasks/main.yml
+- name: Add specific key
+  apt_key: keyserver={{docker_repo_key_server}} id={{docker_repo_key}}
+
+- name: Add docker repo
+  apt_repository: repo='deb {{docker_repo}} ubuntu-{{ansible_distribution_release}} main' state=present
+
+- name: Update apt
+  apt: update_cache=yes
+
+- name: Purge the old repo if it exists
+  apt: name=lxc-docker* purge=yes
+  ignore_errors: yes
+
+- name: Verify that apt is pulling from the right repository
+  command: apt-cache policy docker-engine
+
+- name: Install the recommended package
+  apt: name=linux-image-extra-{{ansible_kernel}} state=present
+  when: docker_install_recommended_package
+
+- name: Install Docker
+  apt: name=docker-engine state=present update_cache=yes
+
+- name: Ensure docker service
+  service: name=docker enabled=yes state=started

@@ -1,0 +1,53 @@
+---
+- name: Install nginx
+  yum: name=nginx state=present
+
+- name: Ensure SELinux doesn't block Nginx
+  seboolean: name=httpd_can_network_connect state=yes persistent=yes
+
+- name: SELinux httpd_t permissive
+  selinux: policy=httpd_t state=permissive
+
+# - name: Copy main nginx configuration to /designsafe/conf
+#   copy: src=nginx-native.conf dest=/designsafe/conf/nginx.conf
+#   notify:
+#     - restart nginx
+
+- name: Copy main nginx configuration to /etc/nginx/
+  copy: src=nginx-native.conf dest=/etc/nginx/nginx.conf
+  notify:
+    - restart nginx
+
+- name: Copy gzip.conf configuration to /etc/nginx/
+  copy: src=gzip.conf dest=/etc/nginx/gzip.conf
+  notify:
+    - restart nginx
+
+- name: Create /etc/ssl/ef.designsafe-ci.org directory
+  file: path=/etc/ssl/designsafe-ci.org state=directory
+
+- name: Create /etc/ssl/designsafe-ci.org
+  file: path=/etc/ssl/ef.designsafe-ci.org state=directory
+
+- name: Copy main TLS certs
+  copy: src={{ main_TLS_loc }} dest=/etc/ssl
+
+- name: Copy EF TLS certs
+  copy: src={{ EF_TLS_loc }} dest=/etc/ssl
+
+- name: Copy dhparam.pem
+  copy: src=dhparam.pem dest=/etc/ssl/dhparam.pem
+
+- name: Copy rsyslog.conf
+  copy: src=rsyslog.conf dest=/etc/rsyslog.conf  #do we need this?  jsut trying to get syslog working with nginx
+
+# - name: Copy site nginx configuration
+#   template: src=default.conf.j2 dest=/etc/nginx/conf.d/default.conf
+#   notify:
+#     - restart nginx
+
+- name: Enable nginx daemon in systemd
+  service:
+      enabled=yes
+      name=nginx
+      state=started

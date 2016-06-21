@@ -1,0 +1,11 @@
+---
+- name: Install DesignSafe on Edge
+  hosts: edge
+  become: yes
+  become_method: sudo
+
+  roles:
+    - common
+    - application
+    - nginx
+    - uwsgi

@@ -1,0 +1,8 @@
+[prod]
+google.com
+
+[qa]
+yahoo.com
+
+[edge]
+129.114.6.123 ansible_user=rodeo
