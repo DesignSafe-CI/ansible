@@ -1,6 +1,6 @@
 ---
-- name: Install DesignSafe on Edge
-  hosts: edge
+- name: Install DesignSafe on rodeo
+  hosts: rodeo
   become: yes
   become_method: sudo
 
@@ -11,5 +11,3 @@
     - { role: selinux, when: selinux_enabled == 'true'}
     - nginx
     - application
-    - ef
-    - systemd

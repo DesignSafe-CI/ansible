@@ -26,6 +26,24 @@
   # notify:
     # - restart nginx
 
+# - name: Create /etc/ssl/designsafe-ci.org
+#   file: path=/etc/ssl/designsafe-ci.org state=directory
+
+# - name: Copy main TLS certs
+#   copy: src={{ main_TLS_loc }} dest=/etc/ssl
+#   notify:
+#     - restart nginx
+
+# - name: Copy EF TLS certs
+#   copy: src={{ EF_TLS_loc }} dest=/etc/ssl
+#   notify:
+#     - restart nginx
+
+- name: Copy TLS certs
+  copy: src={{ certs_loc }} dest=/etc/ssl
+  notify:
+    - restart nginx
+
 - name: Copy gzip.conf configuration to /etc/nginx/
   copy: src=gzip.conf dest=/etc/nginx/gzip.conf
   notify:
@@ -43,14 +61,14 @@
 # - name: Copy EF TLS certs
 #   copy: src={{ EF_TLS_loc }} dest=/etc/ssl
 
-- name: Copy dhparam.pem
-  copy: src=dhparam.pem dest=/etc/ssl/dhparam.pem
+- name: Create dhparam.pem
+  command: openssl dhparam -out /etc/ssl/dhparam.pem 2048
 
 # - name: Copy rsyslog.conf
 #   copy: src=rsyslog.conf dest=/etc/rsyslog.conf  #do we need this?  jsut trying to get syslog working with nginx
 
-# - name: Enable nginx daemon in systemd
-#   service:
-#       enabled=yes
-#       name=nginx
-#       state=started
+- name: Enable nginx daemon in systemd
+  service:
+      enabled=yes
+      name=nginx
+      state=started

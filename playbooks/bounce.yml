@@ -1,6 +1,6 @@
 ---
 - name: Bounce services
-  hosts: edge
+  hosts: rodeo
   become: yes
   become_method: sudo
 

@@ -18,11 +18,11 @@
 # - name: Create /etc/ssl/ef.designsafe-ci.org directory
 #   file: path=/etc/ssl/ef.designsafe-ci.org state=directory
 
-- name: Create /etc/ssl/designsafe-ci.org
-  file: path=/etc/ssl/designsafe-ci.org state=directory
+# - name: Create /etc/ssl/designsafe-ci.org
+#   file: path=/etc/ssl/designsafe-ci.org state=directory
 
-- name: Copy main TLS certs
-  copy: src={{ main_TLS_loc }} dest=/etc/ssl
+# - name: Copy main TLS certs
+#   copy: src={{ main_TLS_loc }} dest=/etc/ssl
 
 # - name: Copy EF TLS certs
 #   copy: src={{ EF_TLS_loc }} dest=/etc/ssl
@@ -35,13 +35,13 @@
 
 - name: Copy designsafe ENV
   template: src=designsafe.env.j2 dest=/designsafe/designsafe.env
-  # notify:
-  #   - restart uwsgi
+  notify:
+    - restart designsafe
 
 - name: Copy docker-compose
-  copy: src=docker-compose-native.yml dest=/designsafe/docker-compose.yml
-  # notify:
-  #   - restart uwsgi
+  template: src=docker-compose-native.yml.j2 dest=/designsafe/docker-compose.yml
+  notify:
+    - restart designsafe
 
 # - name: Copy docker-compose-ef
 #   copy: src=docker-compose-native-ef.yml dest=/designsafe/docker-compose-ef.yml
@@ -50,24 +50,26 @@
 
 - name: Clone 'DesignSafe-CI/portal' repository
   git: repo=https://github.com/DesignSafe-CI/portal.git dest=/designsafe/portal version={{ version }}
-  # notify:
-  #   - restart uwsgi
+  register: repo_updated
+  notify:
+    - restart designsafe
 
 - name: Build docker image
   command:
-       docker build -t designsafeci/portal:latest /designsafe/portal
+      docker build -t designsafeci/portal:{{version}} /designsafe/portal
+  when: repo_updated|changed
 
 - name: Copy systemd file designsafe.service
   copy: src=designsafe.service dest=/usr/lib/systemd/system/designsafe.service
+  notify:
+    - reload systemd
+    - restart designsafe
 
-# - name: Enable and start designsafe daemon in systemd
-#   service:
-#       enabled=yes
-#       name=designsafe
-#       state=started
+- name: Enable and start designsafe daemon in systemd
+  service:
+      enabled=yes
+      name=designsafe
+      state=started
 
-# - name: Enable and start designsafe-ef daemon in systemd
-#   service:
-#       enabled=yes
-#       name=designsafe-ef
-#       state=started
+# - name: run collectstatic
+#   command: docker exec -it designsafe_django_1 python manage.py collectstatic --noinput

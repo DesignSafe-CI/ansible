@@ -2,7 +2,7 @@
 designsafe01.tacc.utexas.edu
 
 [qa]
-designsafeci-dev.utacc.utexas.edu
+designsafeci-dev.tacc.utexas.edu
 
-[edge]
+[rodeo]
 129.114.6.123 ansible_user=rodeo selinux_enabled=true

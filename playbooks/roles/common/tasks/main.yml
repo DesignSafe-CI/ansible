@@ -8,8 +8,8 @@
 - name: Install git
   yum: name=git state=present
 
-- name: Install docker
-  yum: name=docker state=present
+# - name: Install docker
+#   yum: name=docker state=present
 
 - name: Install python
   yum: name=python state=present
