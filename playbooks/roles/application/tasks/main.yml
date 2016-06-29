@@ -1,83 +1,73 @@
 ---
 
-- name: Clone 'DesignSafe-CI/portal' repository
-  git: repo=https://github.com/DesignSafe-CI/portal.git dest=/designsafe/portal version={{ version }}
-  notify:
-    - restart uwsgi
+- name: Create /designsafe directory
+  file: path=/designsafe state=directory
+
+- name: Create /designsafe/media directory
+  file: path=/designsafe/media state=directory
+
+- name: Create /designsafe/redis_data directory
+  file: path=/designsafe/redis_data state=directory
+
+- name: Create /designsafe/conf directory
+  file: path=/designsafe/conf state=directory
+
+- name: Create /corral-repl/tacc/NHERI
+  mount: name=/corral-repl/tacc/NHERI src=129.114.52.21:/corral-repl/tacc/NHERI fstype=nfs opts=rw,nosuid,rsize=1048576,wsize=1048576,intr,nfsvers=3,tcp,addr=129.114.52.21 state=mounted #state=present
+
+# - name: Create /etc/ssl/ef.designsafe-ci.org directory
+#   file: path=/etc/ssl/ef.designsafe-ci.org state=directory
+
+- name: Create /etc/ssl/designsafe-ci.org
+  file: path=/etc/ssl/designsafe-ci.org state=directory
+
+- name: Copy main TLS certs
+  copy: src={{ main_TLS_loc }} dest=/etc/ssl
+
+# - name: Copy EF TLS certs
+#   copy: src={{ EF_TLS_loc }} dest=/etc/ssl
+
+# - name: Copy systemd file designsafe.service
+#   copy: src=designsafe.service dest=/usr/lib/systemd/system/designsafe.service
+
+# - name: Copy systemd file designsafe-ef.service
+#   copy: src=designsafe-ef.service dest=/usr/lib/systemd/system/designsafe-ef.service
 
 - name: Copy designsafe ENV
   template: src=designsafe.env.j2 dest=/designsafe/designsafe.env
-  notify:
-    - restart uwsgi
+  # notify:
+  #   - restart uwsgi
 
 - name: Copy docker-compose
   copy: src=docker-compose-native.yml dest=/designsafe/docker-compose.yml
-  notify:
-    - restart uwsgi
+  # notify:
+  #   - restart uwsgi
 
-- name: Copy docker-compose-ef
-  copy: src=docker-compose-native-ef.yml dest=/designsafe/docker-compose-ef.yml
-  notify:
-    - restart uwsgi
+# - name: Copy docker-compose-ef
+#   copy: src=docker-compose-native-ef.yml dest=/designsafe/docker-compose-ef.yml
+#   # notify:
+#   #   - restart uwsgi
 
-# - name: Build docker containers
-#   command:
-#        docker-compose -f docker-compose-native.yml build
+- name: Clone 'DesignSafe-CI/portal' repository
+  git: repo=https://github.com/DesignSafe-CI/portal.git dest=/designsafe/portal version={{ version }}
+  # notify:
+  #   - restart uwsgi
 
-# - name: Build ef docker containers
-#   command:
-#        docker-compose -f docker-compose-native-ef.yml build
-#   args:
-#        chdir: /designsafe
+- name: Build docker image
+  command:
+       docker build -t designsafeci/portal:latest /designsafe/portal
 
-# - name: Build docker containers
-#   tasks:
-#     - docker_service:
-#         project_src: /designsafe
-#         build: yes
-      # register: output
+- name: Copy systemd file designsafe.service
+  copy: src=designsafe.service dest=/usr/lib/systemd/system/designsafe.service
 
+# - name: Enable and start designsafe daemon in systemd
+#   service:
+#       enabled=yes
+#       name=designsafe
+#       state=started
 
-# - name: Checkout application repository
-#   git: repo=https://{{ githubuser }}:{{ githubpassword }}@github.com/{{ github_repo )) dest=/project/code/repo version={{ app_version }}
-#   notify:
-#     - restart uwsgi
-
-# - name: Build application docker image
-#   command: docker build -t {{ docker_image }}:{{ app_version }} /project/code/repo
-#   notify: restart app-service
-
-# - name: Change ownership of application files
-#   file: path=/opt/mirrors state=directory owner=mirrors group=mirrors
-
-# - name: Change ownership of application files
-#   file: path=/opt/mirrors/logs state=directory owner=mirrors group=mirrors
-
-# - name: Change ownership of application files
-#   file: path=/opt/mirrors/static state=directory owner=mirrors group=mirrors
-
-# - name: Change ownership of application files
-#   file: path=/opt/mirrors/media state=directory owner=mirrors group=mirrors
-
-# - name: Clone 'iPlantCollaborativeOpenSource/datastore-public' repository
-#   git: repo=https://github.com/iPlantCollaborativeOpenSource/datastore-public.git dest=/opt/mirrors/datastore-public version={{ dc_version }}
-#   notify:
-#     - restart uwsgi
-
-# - name: Configure application virtualenv
-#   command: virtualenv /opt/mirrors/venv
-
-# - name: Install application requirements
-#   pip: requirements=/opt/mirrors/datastore-public/requirements.txt virtualenv=/opt/mirrors/venv
-#   notify:
-#     - restart uwsgi
-
-# - name: Django Collect Static
-#   command: /opt/mirrors/venv/bin/python /opt/mirrors/datastore-public/manage.py collectstatic --noinput
-#   become: yes
-#   become_user: mirrors
-
-# - name: Copy DataCommons ENV
-#   template: src=datastore.env.j2 dest=/opt/mirrors/datastore.env
-#   notify:
-#     - restart uwsgi
+# - name: Enable and start designsafe-ef daemon in systemd
+#   service:
+#       enabled=yes
+#       name=designsafe-ef
+#       state=started

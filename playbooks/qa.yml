@@ -1,12 +1,15 @@
 ---
-- name: Install CyVerse DataCommons on QA
+- name: Install DesignSafe on Designsafeci-dev
   hosts: qa
   become: yes
   become_method: sudo
 
   roles:
     - common
-    - application
-    - nginx
+    - docker
+    - users
     - { role: selinux, when: selinux_enabled == 'true'}
-    - uwsgi
+    - nginx
+    - application
+    - ef
+    - systemd

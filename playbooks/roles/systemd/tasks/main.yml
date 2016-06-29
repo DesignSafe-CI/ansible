@@ -1,0 +1,23 @@
+# - name: Copy systemd file designsafe.service
+#   copy: src=designsafe.service dest=/usr/lib/systemd/system/designsafe.service
+
+# - name: Copy systemd file designsafe-ef.service
+#   copy: src=designsafe-ef.service dest=/usr/lib/systemd/system/designsafe-ef.service
+
+- name: Enable nginx daemon in systemd
+  service:
+      enabled=yes
+      name=nginx
+      state=started
+
+- name: Enable and start designsafe daemon in systemd
+  service:
+      enabled=yes
+      name=designsafe
+      state=started
+
+- name: Enable and start designsafe-ef daemon in systemd
+  service:
+      enabled=yes
+      name=designsafe-ef
+      state=started

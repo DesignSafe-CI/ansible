@@ -15,13 +15,13 @@
 #   notify:
 #     - restart uwsgi
 
-- name: Copy systemd file designsafe.service
-  # copy: src=designsafe.service dest=/etc/systemd/system/designsafe.service #why does this one work?
-  copy: src=designsafe.service dest=/usr/lib/systemd/system/designsafe.service #gives permission denied?
+# - name: Copy systemd file designsafe.service
+#   # copy: src=designsafe.service dest=/etc/systemd/system/designsafe.service #why does this one work?
+#   copy: src=designsafe.service dest=/usr/lib/systemd/system/designsafe.service #gives permission denied?
 
-- name: Copy systemd file designsafe-ef.service
-  # copy: src=designsafe-ef.service dest=/etc/systemd/system/designsafe-ef.service
-  copy: src=designsafe-ef.service dest=/usr/lib/systemd/system/designsafe-ef.service
+# - name: Copy systemd file designsafe-ef.service
+#   # copy: src=designsafe-ef.service dest=/etc/systemd/system/designsafe-ef.service
+#   copy: src=designsafe-ef.service dest=/usr/lib/systemd/system/designsafe-ef.service
 
 # - name: Build docker image #works
 #   command:
@@ -29,9 +29,9 @@
 #   args:
 #        chdir: /designsafe/portal
 
-- name: Build docker image #works
-  command:
-       docker build -t designsafeci/portal:latest /designsafe/portal
+# - name: Build docker image #works
+#   command:
+#        docker build -t designsafeci/portal:latest /designsafe/portal
 
 # - name: Build docker image
 #   command:
@@ -64,14 +64,14 @@
 #       state=started
 
 
-- name: Enable and start designsafe daemon in systemd
-  service:
-      enabled=yes
-      name=designsafe
-      state=started
+# - name: Enable and start designsafe daemon in systemd
+#   service:
+#       enabled=yes
+#       name=designsafe
+#       state=started
 
-- name: Enable and start designsafe-ef daemon in systemd
-  service:
-      enabled=yes
-      name=designsafe-ef
-      state=started
+# - name: Enable and start designsafe-ef daemon in systemd
+#   service:
+#       enabled=yes
+#       name=designsafe-ef
+#       state=started

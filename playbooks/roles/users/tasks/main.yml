@@ -1,0 +1,5 @@
+- name: Create docker group
+  group: name=docker state=present
+
+- name: Create portal user
+  user: name=portal shell=/bin/bash groups=docker append=yes

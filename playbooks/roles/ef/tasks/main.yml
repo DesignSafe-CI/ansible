@@ -1,0 +1,12 @@
+---
+- name: Copy systemd file designsafe-ef.service
+  copy: src=designsafe-ef.service dest=/usr/lib/systemd/system/designsafe-ef.service
+
+- name: Create /etc/ssl/ef.designsafe-ci.org directory
+  file: path=/etc/ssl/ef.designsafe-ci.org state=directory
+
+- name: Copy EF TLS certs
+  copy: src={{ EF_TLS_loc }} dest=/etc/ssl
+
+- name: Copy docker-compose-ef
+  copy: src=docker-compose-native-ef.yml dest=/designsafe/docker-compose-ef.yml

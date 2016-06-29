@@ -1,8 +1,8 @@
 [prod]
-google.com
+designsafe01.tacc.utexas.edu
 
 [qa]
-yahoo.com
+designsafeci-dev.utacc.utexas.edu
 
 [edge]
-129.114.6.123 ansible_user=rodeo
+129.114.6.123 ansible_user=rodeo selinux_enabled=true

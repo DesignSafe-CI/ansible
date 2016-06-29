@@ -1,0 +1,33 @@
+---
+- name: Bounce services
+  hosts: edge
+  become: yes
+  become_method: sudo
+
+
+  tasks:
+  - name: Enable docker daemon in systemd
+    service:
+        enabled=yes
+        name=docker
+        state=restarted
+
+  - name: Enable nginx daemon in systemd
+    service:
+        enabled=yes
+        name=nginx
+        state=restarted
+
+  - name: Enable and start designsafe daemon in systemd
+    service:
+        enabled=yes
+        name=designsafe
+        state=restarted
+    # notify: restart docker
+
+  - name: Enable and start designsafe-ef daemon in systemd
+    service:
+        enabled=yes
+        name=designsafe-ef
+        state=restarted
+    # notify: restart docker

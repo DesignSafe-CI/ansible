@@ -6,6 +6,10 @@
 
   roles:
     - common
-    - application
+    - docker
+    - users
+    - { role: selinux, when: selinux_enabled == 'true'}
     - nginx
-    - uwsgi
+    - application
+    - ef
+    - systemd

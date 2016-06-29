@@ -1,0 +1,14 @@
+- name: Install docker-py
+  command: pip install docker-py
+
+- name: Ensure docker-compose is installed and available
+  get_url:
+      url : https://github.com/docker/compose/releases/download/1.7.0-rc1/docker-compose-{{ ansible_system }}-{{ ansible_userspace_architecture }}
+      dest: /usr/local/bin/docker-compose
+      mode: 0755
+
+- name: Enable docker daemon in systemd
+  service:
+      enabled=yes
+      name=docker
+      state=started
