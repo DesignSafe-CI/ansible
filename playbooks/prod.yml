@@ -1,0 +1,14 @@
+---
+- name: Install DesignSafe on Designsafeci-dev
+  hosts: rodeo
+  become: yes
+  become_method: sudo
+
+  roles:
+    - common
+    - docker
+    - users
+    - { role: selinux, when: selinux_enabled == 'true'}
+    - nginx
+    - application
+    - ef

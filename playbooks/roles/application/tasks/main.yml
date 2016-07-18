@@ -50,6 +50,15 @@
 
 - name: Clone 'DesignSafe-CI/portal' repository
   git: repo=https://github.com/DesignSafe-CI/portal.git dest=/designsafe/portal version={{ version }}
+  when: "'prod' not in group_names"
+  register: repo_updated
+  notify:
+    - restart designsafe
+
+- name: Pull 'DesignSafe-CI/portal' image
+  docker_image:
+    name: designsafeci/portal
+  when: "'prod' in group_names"
   register: repo_updated
   notify:
     - restart designsafe

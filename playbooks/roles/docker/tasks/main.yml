@@ -1,5 +1,32 @@
+- name: upgrade all packages
+  yum: name=* state=latest
+
+- name: Add repository
+  yum_repository:
+    name: "Docker Repository"
+    description: Docker Yum Repository
+    baseurl: https://yum.dockerproject.org/repo/main/centos/7/
+    enabled: yes
+    gpgcheck: yes
+    gpgkey: https://yum.dockerproject.org/gpg
+
 - name: Install docker
-  yum: name=docker state=present
+  yum: name=docker-engine state=present
+
+- name: Install docker-py
+  command: pip install docker-py
+
+- name: Ensure docker-compose is installed and available
+  get_url:
+      url : https://github.com/docker/compose/releases/download/1.7.0-rc1/docker-compose-{{ ansible_system }}-{{ ansible_userspace_architecture }}
+      dest: /usr/local/bin/docker-compose
+      mode: 0755
+
+- name: Enable docker daemon in systemd
+  service:
+      enabled=yes
+      name=docker
+      state=started
 
 - name: Install docker-py
   command: pip install docker-py
