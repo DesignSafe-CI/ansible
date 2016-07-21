@@ -24,12 +24,12 @@ Configure:
 * Host keys for deployment targets
 * Host file(s) for deployment targets
 
-  * Should be configured outside the playbook, e.g. ~/.ansible/designsafe/hosts
+  * Should be configured outside the playbook, e.g. /designsafe/ansible/hosts
   * A template for this is available ?here? [[TODO]]
 
 * Ansible variables Variables for deployment targets
 
-  * Should be configured outside the playbook, e.g. ~/.ansible/designsafe/variables.yml
+  * Should be configured outside the playbook, e.g. /designsafe/ansible/variables/variables.yml
   * A template for this is available ?here? [[TODO]]
 
 Playbooks
