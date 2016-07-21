@@ -62,7 +62,7 @@
 #   copy: src={{ EF_TLS_loc }} dest=/etc/ssl
 
 - name: Create dhparam.pem
-  command: openssl dhparam -out /etc/ssl/dhparam.pem 2048
+  command: openssl dhparam -out /etc/ssl/dhparam.pem 2048 creates=/etc/ssl/dhparam.pem
 
 # - name: Copy rsyslog.conf
 #   copy: src=rsyslog.conf dest=/etc/rsyslog.conf  #do we need this?  jsut trying to get syslog working with nginx
