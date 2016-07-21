@@ -3,6 +3,8 @@
   hosts: qa
   become: yes
   become_method: sudo
+  vars_files:
+    - /designsafe/ansible/variables/variables-qa.yml
 
   roles:
     - common
