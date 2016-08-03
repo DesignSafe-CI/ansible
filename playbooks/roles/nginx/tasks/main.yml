@@ -19,3 +19,6 @@
 
 - name: Create dhparam.pem
   command: openssl dhparam -out /etc/ssl/dhparam.pem 2048 creates=/etc/ssl/dhparam.pem
+
+- name: Copy error pages
+  copy: src=error dest=/usr/share/nginx/html
