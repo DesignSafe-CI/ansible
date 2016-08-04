@@ -67,7 +67,7 @@ http {
 
         location / {
             include  /etc/nginx/uwsgi_params;
-            uwsgi_pass  localhost:8000;
+            uwsgi_pass  {{ server.uwsgi_upstream }};
         }
 
         location /ws/ {
