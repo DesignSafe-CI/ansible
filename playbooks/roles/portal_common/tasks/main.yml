@@ -1,32 +1,13 @@
 ---
 # Create various application directories
 - name: Create /designsafe directory
-  file: path=/designsafe state=directory group=portal owner=portal
+  file: path=/designsafe state=directory owner=portal group=portal
 
 - name: Create /designsafe/media directory
-  file: path=/designsafe/media state=directory group=tg458981 owner=g-80610
+  file: path=/designsafe/media state=directory owner=tg458981 group=G-80610
 
 - name: Create /designsafe/static directory
-  file: path=/designsafe/static state=directory group=tg458981 owner=g-80610
+  file: path=/designsafe/static state=directory owner=tg458981 group=G-80610
 
 - name: Create /designsafe/redis_data directory
   file: path=/designsafe/redis_data state=directory owner=999
-
-# Pull Application Images
-- name: Pull designsafeci/portal image
-  docker_image:
-    name: designsafeci/portal
-    tag: {{ version }}
-
-- name: Pull buildpack-deps image
-  docker_image:
-    name: buildpack-deps
-    tag: trusty
-
-- name: Pull redis image
-  docker_image:
-    name: redis
-
-- name: Pull memcached image
-  docker_image:
-    name: memcached
