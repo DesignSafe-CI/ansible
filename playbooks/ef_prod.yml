@@ -1,0 +1,14 @@
+---
+- name: Install DesignSafe EF Sites
+  hosts: designsafe_ef_prod
+  vars_files:
+    - ~/.ansible/designsafe/vars/ef_prod.yml
+
+  roles:
+    - common
+    - docker
+    - users
+    - { role: selinux, when: selinux_enabled == 'true'}
+    - nginx
+    - portal_common
+    - portal_ef
