@@ -1,0 +1,141 @@
+data:
+  image: buildpack-deps:trusty
+  volumes:
+    - /designsafe/static:/var/www/designsafe-ci.org/static
+    - /designsafe/media:/var/www/designsafe-ci.org/media
+    - /designsafe/redis_data:/data
+
+redis:
+  image: redis
+  command: redis-server --appendonly yes
+  volumes_from:
+    - data
+
+memcached:
+  image: memcached
+
+fiu_ef:
+  image: designsafeci/portal:{{ version }}
+  command: /usr/local/bin/uwsgi --ini /portal/conf/uwsgi_ef.ini
+  env_file: designsafe.env
+  environment:
+    DJANGO_SETTINGS_MODULE: designsafe.sites.fiu_ef
+  mem_limit: 256m
+  log_driver: syslog
+  log_opt:
+    tag: designsafe_fiu_ef
+  links:
+    - redis:redis
+    - memcached:memcached
+  ports:
+    - 8001:8000
+  volumes_from:
+    - data
+
+lehigh_ef:
+  image: designsafeci/portal:{{ version }}
+  command: /usr/local/bin/uwsgi --ini /portal/conf/uwsgi_ef.ini
+  env_file: designsafe.env
+  environment:
+    DJANGO_SETTINGS_MODULE: designsafe.sites.lehigh_ef
+  mem_limit: 256m
+  log_driver: syslog
+  log_opt:
+    tag: designsafe_lehigh_ef
+  links:
+    - redis:redis
+    - memcached:memcached
+  ports:
+    - 8002:8000
+  volumes_from:
+    - data
+
+oregonstate_ef:
+  image: designsafeci/portal:{{ version }}
+  command: /usr/local/bin/uwsgi --ini /portal/conf/uwsgi_ef.ini
+  env_file: designsafe.env
+  environment:
+    DJANGO_SETTINGS_MODULE: designsafe.sites.oregonstate_ef
+  mem_limit: 256m
+  log_driver: syslog
+  log_opt:
+    tag: designsafe_oregonstate_ef
+  links:
+    - redis:redis
+    - memcached:memcached
+  ports:
+    - 8003:8000
+  volumes_from:
+    - data
+
+ucdavis_ef:
+  image: designsafeci/portal:{{ version }}
+  command: /usr/local/bin/uwsgi --ini /portal/conf/uwsgi_ef.ini
+  env_file: designsafe.env
+  environment:
+    DJANGO_SETTINGS_MODULE: designsafe.sites.ucdavis_ef
+  mem_limit: 256m
+  log_driver: syslog
+  log_opt:
+    tag: designsafe_ucdavis_ef
+  links:
+    - redis:redis
+    - memcached:memcached
+  ports:
+    - 8004:8000
+  volumes_from:
+    - data
+
+ucsd_ef:
+  image: designsafeci/portal:{{ version }}
+  command: /usr/local/bin/uwsgi --ini /portal/conf/uwsgi_ef.ini
+  env_file: designsafe.env
+  environment:
+    DJANGO_SETTINGS_MODULE: designsafe.sites.ucsd_ef
+  mem_limit: 256m
+  log_driver: syslog
+  log_opt:
+    tag: designsafe_ucsd_ef
+  links:
+    - redis:redis
+    - memcached:memcached
+  ports:
+    - 8005:8000
+  volumes_from:
+    - data
+
+ufl_ef:
+  image: designsafeci/portal:{{ version }}
+  command: /usr/local/bin/uwsgi --ini /portal/conf/uwsgi_ef.ini
+  env_file: designsafe.env
+  environment:
+    DJANGO_SETTINGS_MODULE: designsafe.sites.ufl_ef
+  mem_limit: 256m
+  log_driver: syslog
+  log_opt:
+    tag: designsafe_ufl_ef
+  links:
+    - redis:redis
+    - memcached:memcached
+  ports:
+    - 8006:8000
+  volumes_from:
+    - data
+
+utexas_ef:
+  image: designsafeci/portal:{{ version }}
+  command: /usr/local/bin/uwsgi --ini /portal/conf/uwsgi_ef.ini
+  env_file: designsafe.env
+  environment:
+    DJANGO_SETTINGS_MODULE: designsafe.sites.utexas_ef
+  mem_limit: 256m
+  log_driver: syslog
+  log_opt:
+    tag: designsafe_utexas_ef
+  links:
+    - redis:redis
+    - memcached:memcached
+  ports:
+    - 8007:8000
+  volumes_from:
+    - data
