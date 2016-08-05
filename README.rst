@@ -32,28 +32,63 @@ Configure:
   * Should be configured outside the playbook, e.g. /designsafe/ansible/variables/variables.yml
   * A template for this is available ?here? [[TODO]]
 
+Configuration
++++++++++++++
+
+Inventory
+---------
+
+Before you can use these playbooks you will need to configure your Ansible inventory and
+setup your variables file(s). The default inventory location is ``/etc/ansible/inventory``.
+The ``ansible.cfg`` file located at the root of this repository sets the inventory file
+location to ``~/.ansible/hosts``. To use this config file either a) run playbooks from the
+root of this repository or b) copy the ``ansible.cfg`` file to ``$HOME``.
+
+Variables
+---------
+
+Variables files for each playbook should be placed in the directory
+``~/.ansible/designsafe/vars/``.
+
+
 Playbooks
 +++++++++
 
-The following playbooks are available:
+The following playbooks are available. For each is listed the inventory group and
+variables file that will be activated when you run the associated playbook.
 
-Deploying the Main DS Portal
-----------------------------
+DesignSafe Main Portal
+----------------------
+
+Production
+''''''''''
+
+Inventory group: ``designsafe_portal_prod``
+Variables file: ``~/.ansible/designsafe/vars/portal_prod.yml``
+Playbook: ``playbooks/portal_prod.yml``
+
+QA/Testing
+''''''''''
+
+Inventory group: ``designsafe_portal_qa``
+Variables file: ``~/.ansible/designsafe/vars/portal_qa.yml``
+Playbook: ``playbooks/portal_qa.yml``
+
+DesignSafe EF Sites
+-------------------
+
+Inventory group: ``designsafe_ef_prod``
+Variables file: ``~/.ansible/designsafe/vars/portal_prod.yml``
+Playbook: ``playbooks/ef_prod.yml``
+
+
+Elasticsearch cluster
+---------------------
 
 TODO
 
-Deploying the DS EF Sites
--------------------------
-
-TODO
-
-Deploying the DS Elasticsearch cluster
---------------------------------------
-
-TODO
-
-Deploying the DS Community Forums
----------------------------------
+DesignSafe VCoP Forums
+----------------------
 
 TODO
 
