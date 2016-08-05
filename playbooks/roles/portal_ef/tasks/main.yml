@@ -1,23 +1,4 @@
 ---
-# Pull Application Images
-- name: Pull buildpack-deps image
-  docker_image:
-    name: buildpack-deps
-    tag: trusty
-
-- name: Pull redis image
-  docker_image:
-    name: redis
-
-- name: Pull memcached image
-  docker_image:
-    name: memcached
-
-- name: Pull designsafeci/portal image
-  docker_image:
-    name: designsafeci/portal
-    tag: "{{ version }}"
-
 # Configure Services
 - name: Copy docker-compose-ef
   template: src=docker-compose-ef.yml.j2 dest=/designsafe/docker-compose-ef.yml

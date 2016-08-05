@@ -11,3 +11,28 @@
 
 - name: Create /designsafe/redis_data directory
   file: path=/designsafe/redis_data state=directory owner=999
+
+# Pull Application Images
+- name: Pull buildpack-deps image
+  docker_image:
+    name: buildpack-deps
+    tag: trusty
+    force: True
+
+- name: Pull redis image
+  docker_image:
+    name: redis
+    tag: 3.2
+    force: True
+
+- name: Pull memcached image
+  docker_image:
+    name: memcached
+    tag: 1.4
+    force: True
+
+- name: Pull designsafeci/portal image
+  docker_image:
+    name: designsafeci/portal
+    tag: "{{ version }}"
+    force: True
