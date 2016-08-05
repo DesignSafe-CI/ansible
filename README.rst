@@ -63,23 +63,23 @@ DesignSafe Main Portal
 Production
 ''''''''''
 
-Inventory group: ``designsafe_portal_prod``
-Variables file: ``~/.ansible/designsafe/vars/portal_prod.yml``
-Playbook: ``playbooks/portal_prod.yml``
+* Inventory group: ``designsafe_portal_prod``
+* Variables file: ``~/.ansible/designsafe/vars/portal_prod.yml``
+* Playbook: ``playbooks/portal_prod.yml``
 
 QA/Testing
 ''''''''''
 
-Inventory group: ``designsafe_portal_qa``
-Variables file: ``~/.ansible/designsafe/vars/portal_qa.yml``
-Playbook: ``playbooks/portal_qa.yml``
+* Inventory group: ``designsafe_portal_qa``
+* Variables file: ``~/.ansible/designsafe/vars/portal_qa.yml``
+* Playbook: ``playbooks/portal_qa.yml``
 
 DesignSafe EF Sites
 -------------------
 
-Inventory group: ``designsafe_ef_prod``
-Variables file: ``~/.ansible/designsafe/vars/portal_prod.yml``
-Playbook: ``playbooks/ef_prod.yml``
+* Inventory group: ``designsafe_ef_prod``
+* Variables file: ``~/.ansible/designsafe/vars/portal_prod.yml``
+* Playbook: ``playbooks/ef_prod.yml``
 
 
 Elasticsearch cluster
