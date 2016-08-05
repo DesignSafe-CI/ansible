@@ -20,7 +20,7 @@ worker:
     env_file: designsafe.env
     log_driver: syslog
     log_opt:
-        tag: celery_worker
+        tag: designsafe_taskqueue
     links:
         - redis:redis
         - memcached:memcached
@@ -33,7 +33,7 @@ websocket:
     env_file: designsafe.env
     log_driver: syslog
     log_opt:
-        tag: portal_websocket
+        tag: designsafe_websocket
     ports:
         - 9000:9000
     links:
@@ -48,7 +48,7 @@ django:
     env_file: designsafe.env
     log_driver: syslog
     log_opt:
-        tag: portal_main
+        tag: designsafe_main
     ports:
     - 8000:8000
     links:
