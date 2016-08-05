@@ -8,7 +8,7 @@
     - common
     - docker
     - users
-    - { role: selinux, when: selinux_enabled == 'false'}
+    - { role: selinux, when: selinux_enabled == 'true'}
     - nginx
     - portal_common
     - portal_main
