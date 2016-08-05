@@ -1,0 +1,6 @@
+---
+- name: restart designsafe
+  service: name=designsafe state=restarted enabled=yes
+
+- name: reload systemd
+  command: systemctl daemon-reload

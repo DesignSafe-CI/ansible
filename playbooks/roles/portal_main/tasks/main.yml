@@ -1,0 +1,45 @@
+---
+# Pull Application Images
+- name: Pull buildpack-deps image
+  docker_image:
+    name: buildpack-deps
+    tag: trusty
+
+- name: Pull redis image
+  docker_image:
+    name: redis
+
+- name: Pull memcached image
+  docker_image:
+    name: memcached
+
+- name: Pull designsafeci/portal image
+  docker_image:
+    name: designsafeci/portal
+    tag: "{{ version }}"
+
+# Configure Services
+- name: Copy docker-compose file
+  template: src=docker-compose.yml.j2 dest=/designsafe/docker-compose.yml
+  notify:
+    - restart designsafe
+
+- name: Set up application environment file
+  template: src=designsafe.env.j2 dest=/designsafe/designsafe.env
+  notify:
+    - restart designsafe
+
+- name: Copy systemd file designsafe.service
+  copy: src=designsafe.service dest=/usr/lib/systemd/system/designsafe.service
+  notify:
+    - reload systemd
+    - restart designsafe
+
+- name: Enable and start designsafe daemon in systemd
+  service:
+      enabled=yes
+      name=designsafe
+      state=started
+
+#- name: Collect Django Static Assets
+#  command: docker exec -it designsafe_fiu_ef_1 python manage.py collectstatic --noinput
