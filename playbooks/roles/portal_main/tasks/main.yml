@@ -22,5 +22,11 @@
       name=designsafe
       state=restarted
 
-#- name: Collect Django Static Assets
-#  command: docker exec -it designsafe_fiu_ef_1 python manage.py collectstatic --noinput
+- name: Wait for Django container to be running
+  wait_for: port=8000
+
+- name: Run Django migrations
+  command: docker exec -it designsafe_django_1 python manage.py migrate
+
+- name: Run Django collectstatic
+  command: docker exec -it designsafe_django_1 python manage.py collectstatic --noinput
