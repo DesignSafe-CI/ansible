@@ -20,7 +20,7 @@
   service:
       enabled=yes
       name=designsafe
-      state=started
+      state=restarted
 
 #- name: Collect Django Static Assets
 #  command: docker exec -it designsafe_fiu_ef_1 python manage.py collectstatic --noinput
