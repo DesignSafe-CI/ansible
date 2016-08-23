@@ -1,0 +1,14 @@
+---
+- name: Install DesignSafe Main Portal
+  hosts: designsafe_portal_prod
+  vars_files:
+    - ~/.ansible/designsafe/vars/portal_prod.yml
+
+  roles:
+    - common
+    - docker
+    - users
+    - { role: selinux, when: selinux_enabled == 'true'}
+    - nginx
+    - portal_common
+    - portal_main
