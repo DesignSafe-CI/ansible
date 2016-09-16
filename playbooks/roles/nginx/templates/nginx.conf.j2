@@ -38,6 +38,12 @@ http {
         listen  443 ssl;
         server_name {{ server.name }};
 
+        {% if server.default %}
+        if ($host != "{{ server.name }}") {
+            rewrite ^(.*)$ https://{{ server.name }}$1;
+        }
+        {% endif %}
+
         charset  utf-8;
 
         ssl_certificate             {{ server.ssl_cert_path }};
