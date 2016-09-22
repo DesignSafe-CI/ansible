@@ -2,19 +2,14 @@
 # Configure Services
 - name: Copy docker-compose file
   template: src=docker-compose.yml.j2 dest=/designsafe/docker-compose.yml
-  notify:
-    - restart designsafe
 
 - name: Set up application environment file
   template: src=designsafe.env.j2 dest=/designsafe/designsafe.env
-  notify:
-    - restart designsafe
 
 - name: Copy systemd file designsafe.service
   copy: src=designsafe.service dest=/usr/lib/systemd/system/designsafe.service
   notify:
     - reload systemd
-    - restart designsafe
 
 - name: Enable and start designsafe daemon in systemd
   service:
