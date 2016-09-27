@@ -30,9 +30,3 @@
     name: memcached
     tag: 1.4
     force: True
-
-- name: Pull designsafeci/portal image
-  docker_image:
-    name: designsafeci/portal
-    tag: "{{ version }}"
-    force: True

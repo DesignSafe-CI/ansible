@@ -11,4 +11,5 @@
     - { role: selinux, when: selinux_enabled == 'true'}
     - nginx
     - portal_common
+    - portal_remote_build
     - portal_main

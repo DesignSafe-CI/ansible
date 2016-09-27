@@ -1,0 +1,6 @@
+---
+- name: Pull designsafeci/portal image from Docker Hub
+  docker_image:
+    name: designsafeci/portal
+    tag: "{{ version }}"
+    force: True
