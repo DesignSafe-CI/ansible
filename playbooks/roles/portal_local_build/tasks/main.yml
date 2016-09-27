@@ -3,4 +3,4 @@
   git: repo=https://github.com/designsafe-ci/portal.git dest=/src/designsafe/portal version={{ version }}
 
 - name: Build Docker Image
-  docker_image: path=/src/designsafe/portal name=designsafeci/portal tag={{ version }}
+  docker_image: path=/src/designsafe/portal name=designsafeci/portal tag={{ version }} nocache=yes force=yes
