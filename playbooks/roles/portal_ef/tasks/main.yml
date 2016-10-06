@@ -17,8 +17,8 @@
       name=designsafe-ef
       state=restarted
 
-- name: Wait for Django container to be running
-  wait_for: port=8000
+- name: Wait for Django fiu_ef container to be running
+  wait_for: port=8001
 
 - name: Collect Django Static Assets
   command: docker exec designsafe_fiu_ef_1 python manage.py collectstatic --noinput
