@@ -55,6 +55,9 @@ http {
 
         client_max_body_size 2G;
 
+        # Extra slashes matter to Agave
+        merge_slashes off;
+
         location /media  {
             alias /designsafe/media;
         }
