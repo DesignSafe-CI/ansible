@@ -4,7 +4,7 @@
   vars_files:
     - ~/.ansible/designsafe/vars/portal_qa.yml
 
-  tasks:
+  pre_tasks:
     - name: Get Portal Jenkins Latest Build
       delegate_to: localhost
       command: python bin/check-jenkins-status.py https://jenkins01.tacc.utexas.edu DesignSafeCI_Portal
