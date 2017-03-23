@@ -14,9 +14,9 @@ rabbitmq:
         - 5672:5672
         - 15672:15672
     environment:
-        - RABBITMQ_DEFAULT_USER={{ rabbitmq_default_user }}
-        - RABBITMQ_DFEAULT_PASS={{ rabbitmq_default_pass }}
-        - RABBITMQ_DEFAULT_VHOST={{ rabbitmq_default_vhost }}
+        - "RABBITMQ_DEFAULT_USER={{ rabbitmq_default_user }}"
+        - "RABBITMQ_DFEAULT_PASS={{ rabbitmq_default_pass }}"
+        - "RABBITMQ_DEFAULT_VHOST={{ rabbitmq_default_vhost }}"
 
 redis:
     image: redis

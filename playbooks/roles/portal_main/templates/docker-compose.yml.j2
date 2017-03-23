@@ -6,29 +6,8 @@ data:
         - /designsafe/redis_data:/data
         - /corral-repl/tacc/NHERI:/corral-repl/tacc/NHERI
 
-redis:
-    image: redis
-    command: redis-server --appendonly yes
-    volumes_from:
-        - data
-    ports:
-        - 6379:6379
-
 memcached:
     image: memcached
-
-worker:
-    image: designsafeci/portal:{{ version }}
-    env_file: designsafe.env
-    log_driver: syslog
-    log_opt:
-        tag: designsafe_taskqueue
-    links:
-        - redis:redis
-        - memcached:memcached
-    volumes_from:
-        - data
-    command: ./bin/run-celery.sh
 
 websocket:
     image: designsafeci/portal:{{ version }}
