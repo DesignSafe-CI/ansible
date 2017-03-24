@@ -30,10 +30,3 @@
     name: memcached
     tag: 1.4
     force: True
-
-- name: Pull rabbitmq image
-  docker_image:
-    name: rabbitmq:3.6.8-management
-    tag: 3-management
-    force: True
-  when: inventory_hostname == "worker"
