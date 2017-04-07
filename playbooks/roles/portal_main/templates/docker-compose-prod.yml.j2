@@ -1,0 +1,61 @@
+data:
+    image: buildpack-deps:trusty
+    volumes:
+        - /designsafe/static:/var/www/designsafe-ci.org/static
+        - /designsafe/media:/var/www/designsafe-ci.org/media
+        - /designsafe/redis_data:/data
+        - /corral-repl/tacc/NHERI:/corral-repl/tacc/NHERI
+
+memcached:
+    image: memcached
+
+
+redis:
+    image: redis
+    command: redis-server --appendonly yes
+    volumes_from:
+        - data
+    ports:
+        - 6379:6379
+
+worker:
+    image: designsafeci/portal:{{ version }}
+    env_file: designsafe.env
+    log_driver: syslog
+    log_opt:
+        tag: designsafe_taskqueue
+    links:
+        - redis:redis
+        - memcached:memcached
+    volumes_from:
+        - data
+    command: ./bin/run-celery.sh
+
+websocket:
+    image: designsafeci/portal:{{ version }}
+    env_file: designsafe.env
+    log_driver: syslog
+    log_opt:
+        tag: designsafe_websocket
+    ports:
+        - 9000:9000
+    links:
+        - memcached:memcached
+        - redis:redis
+    volumes_from:
+        - data
+    command: /usr/local/bin/uwsgi --ini /portal/conf/uwsgi_websocket.ini
+
+django:
+    image: designsafeci/portal:{{ version }}
+    env_file: designsafe.env
+    log_driver: syslog
+    log_opt:
+        tag: designsafe_main
+    ports:
+    - 8000:8000
+    links:
+        - memcached:memcached
+        - redis:redis
+    volumes_from:
+        - data

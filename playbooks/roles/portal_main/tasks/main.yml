@@ -2,7 +2,11 @@
 # Configure Services
 - name: Copy docker-compose file
   template: src=docker-compose.yml.j2 dest=/designsafe/docker-compose.yml
-  when: inventory_hostname != "worker"
+  when: inventory_hostname == "portal"
+
+- name: Copy docker-compose file
+  template: src=docker-compose.yml.j2 dest=/designsafe/docker-compose-prod.yml
+  when: inventory_hostname == "portalprod"
 
 - name: Copy docker-compose-worker file
   template: src=docker-compose-worker.yml.j2 dest=/designsafe/docker-compose.yml
