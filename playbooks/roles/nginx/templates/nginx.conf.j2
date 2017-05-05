@@ -58,6 +58,10 @@ http {
         # Extra slashes matter to Agave
         merge_slashes off;
 
+        location /uploads {
+            alias /corral-repl/tacc/NHERI/uploads;
+        }
+        
         location /media  {
             alias /designsafe/media;
         }
