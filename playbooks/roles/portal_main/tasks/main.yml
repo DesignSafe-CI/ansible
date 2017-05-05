@@ -2,6 +2,15 @@
 # Configure Services
 - name: Copy docker-compose file
   template: src=docker-compose.yml.j2 dest=/designsafe/docker-compose.yml
+  when: inventory_hostname == "portal"
+
+- name: Copy docker-compose file
+  template: src=docker-compose.yml.j2 dest=/designsafe/docker-compose-prod.yml
+  when: inventory_hostname == "portalprod"
+
+- name: Copy docker-compose-worker file
+  template: src=docker-compose-worker.yml.j2 dest=/designsafe/docker-compose.yml
+  when: inventory_hostname == "worker"
 
 - name: Set up application environment file
   template: src=designsafe.env.j2 dest=/designsafe/designsafe.env
@@ -19,9 +28,12 @@
 
 - name: Wait for Django container to be running
   wait_for: port=8000
+  when: inventory_hostname != "worker"
 
 - name: Run Django migrations
   command: docker exec designsafe_django_1 python manage.py migrate
+  when: inventory_hostname != "worker"
 
 - name: Run Django collectstatic
   command: docker exec designsafe_django_1 python manage.py collectstatic --noinput
+  when: inventory_hostname != "worker"
