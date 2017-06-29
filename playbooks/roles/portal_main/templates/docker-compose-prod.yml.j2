@@ -59,3 +59,4 @@ django:
         - redis:redis
     volumes_from:
         - data
+    command: /usr/local/bin/uwsgi --ini /portal/conf/uwsgi.ini
