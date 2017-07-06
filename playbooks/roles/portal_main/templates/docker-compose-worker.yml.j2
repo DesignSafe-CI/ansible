@@ -6,18 +6,6 @@ data:
         - /designsafe/redis_data:/data
         - /corral-repl/tacc/NHERI:/corral-repl/tacc/NHERI
 
-rabbitmq:
-    image: rabbitmq:3.6.8-management
-    volumes_from:
-        - data
-    ports:
-        - 5672:5672
-        - 15672:15672
-    environment:
-        - "RABBITMQ_DEFAULT_USER={{ rabbitmq_default_user }}"
-        - "RABBITMQ_DFEAULT_PASS={{ rabbitmq_default_pass }}"
-        - "RABBITMQ_DEFAULT_VHOST={{ rabbitmq_default_vhost }}"
-
 redis:
     image: redis
     command: redis-server --appendonly yes
@@ -35,6 +23,7 @@ worker:
     log_driver: syslog
     log_opt:
         tag: designsafe_taskqueue
+    hostname: {{worker_container_hostname}}
     links:
         - redis:redis
         - memcached:memcached

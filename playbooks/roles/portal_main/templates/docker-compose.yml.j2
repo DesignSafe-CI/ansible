@@ -15,6 +15,7 @@ websocket:
     log_driver: syslog
     log_opt:
         tag: designsafe_websocket
+    hostname: {{websocket_container_hostname}}
     ports:
         - 9000:9000
     links:
@@ -29,6 +30,7 @@ django:
     log_driver: syslog
     log_opt:
         tag: designsafe_main
+    hostname: {{django_container_hostname}}
     ports:
     - 8000:8000
     links:
