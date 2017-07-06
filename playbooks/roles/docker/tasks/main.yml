@@ -9,10 +9,13 @@
     gpgkey: https://yum.dockerproject.org/gpg
 
 - name: Install docker
-  yum: name=docker-engine state=present
+  yum:
+    name: docker-engine
+    state: present
 
 - name: Install docker-py
-  pip: name=docker-py
+  pip:
+    name: docker-py
 
 - name: Ensure docker-compose is installed and available
   get_url:
@@ -21,4 +24,7 @@
       mode: 0755
 
 - name: Enable docker daemon in systemd
-  service: enabled=yes name=docker state=started
+  service:
+    enabled: yes
+    name: docker
+    state: started
