@@ -6,7 +6,7 @@
 
 - name: upgrade all packages
   yum:
-    name: *
+    name: '*'
     state: latest
 
 - name: Install git
