@@ -37,4 +37,4 @@ django:
         - memcached:memcached
     volumes_from:
         - data
-    command: NEW_RELIC_CONFIG_FILE=/portal/conf/newrelic.ini NEW_RELIC_ENVIRONMENT={{ new_relic_environment }} NEW_RELIC_LICENSE_KEY= {{ new_relic_license_key}} newrelic-admin run-program /usr/local/bin/uwsgi --ini /portal/conf/uwsgi.ini
+    command: NEW_RELIC_CONFIG_FILE=/portal/conf/newrelic.ini NEW_RELIC_ENVIRONMENT={{new_relic_environment}} NEW_RELIC_LICENSE_KEY={{new_relic_license_key}} newrelic-admin run-program /usr/local/bin/uwsgi --ini /portal/conf/uwsgi.ini
