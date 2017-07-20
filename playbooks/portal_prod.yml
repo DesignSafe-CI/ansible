@@ -24,9 +24,9 @@
       when: portal_frontend_build|failed
 
   roles:
-    - common
-    - docker
-    - users
+    - { role: common, when: portal_upgrade == 'true' }
+    - { role: docker, when: portal_upgrade == 'true' }
+    - { role: users, when: portal_upgrade == 'true' }
     - { role: selinux, when: selinux_enabled == 'true'}
     - nginx
     - portal_common
