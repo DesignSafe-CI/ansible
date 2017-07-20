@@ -28,8 +28,8 @@
 
 - name: Run Django migrations
   command: docker exec designsafe_django_1 python manage.py migrate
-  when: inventory_hostname != "worker-prod" or inventory_hostname != "worker-dev"
+  when: inventory_hostname != "worker-prod" and inventory_hostname != "worker-dev"
 
 - name: Run Django collectstatic
   command: docker exec designsafe_django_1 python manage.py collectstatic --noinput
-  when: inventory_hostname != "worker-prod" or inventory_hostname != "worker-dev"
+  when: inventory_hostname != "worker-prod" and inventory_hostname != "worker-dev"
