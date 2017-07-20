@@ -27,7 +27,6 @@ worker:
     links:
         - redis:redis
         - memcached:memcached
-        - rabbitmq:rabbitmq
     volumes_from:
         - data
     command: ./bin/run-celery.sh
