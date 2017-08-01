@@ -1,15 +1,15 @@
 ---
 # Configure Services
 - name: Copy docker-compose file
-  template: src=docker-compose.yml.j2 dest=/designsafe/docker-compose.yml
+  template: src=docker-compose.yml.j2 dest=/srv/www/designsafe/docker-compose.yml
   when: inventory_hostname == "portal-prod" or inventory_hostname == "portal-dev"
 
 - name: Copy docker-compose-worker file
-  template: src=docker-compose-worker.yml.j2 dest=/designsafe/docker-compose.yml
+  template: src=docker-compose-worker.yml.j2 dest=/srv/www/designsafe/docker-compose.yml
   when: inventory_hostname == "worker-prod" or inventory_hostname == "worker-dev"
 
 - name: Set up application environment file
-  template: src=designsafe.env.j2 dest=/designsafe/designsafe.env
+  template: src=designsafe.env.j2 dest=/srv/www/designsafe/designsafe.env
 
 - name: Copy systemd file designsafe.service
   copy: src=designsafe.service dest=/usr/lib/systemd/system/designsafe.service
@@ -24,12 +24,15 @@
 
 - name: Wait for Django container to be running
   wait_for: port=8000
-  when: inventory_hostname != "worker-prod" and inventory_hostname != "worker-dev"
+  when: (inventory_hostname != 'worker-prod' and inventory_hostname != 'worker-dev') and
+         'vagrant' not in group_names
 
 - name: Run Django migrations
   command: docker exec designsafe_django_1 python manage.py migrate
-  when: inventory_hostname != "worker-prod" and inventory_hostname != "worker-dev"
+  when: (inventory_hostname != "worker-prod" and inventory_hostname != "worker-dev") and
+         'vagrant' not in group_names
 
 - name: Run Django collectstatic
   command: docker exec designsafe_django_1 python manage.py collectstatic --noinput
-  when: inventory_hostname != "worker-prod" and inventory_hostname != "worker-dev"
+  when: (inventory_hostname != "worker-prod" and inventory_hostname != "worker-dev") and
+         'vagrant' not in group_names
