@@ -3,3 +3,17 @@
 
 - name: Create portal user
   user: name=portal shell=/bin/bash groups=docker append=yes
+
+- name: Create tg group
+  group:
+    name: G-816877
+    state: present
+    gid: 816877
+
+- name: Create tg user
+  user:
+    name: tg458981
+    shell: /bin/bash
+    groups: G-816877,docker,wheel
+    append: yes
+    uid: 458981
