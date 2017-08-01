@@ -1,0 +1,16 @@
+---
+- name: install DesignSafe Portal
+  hosts: all
+  vars_files:
+    - ~/.ansible/designsafe/vars/dev.yml
+  become: true
+  become_user: root
+
+  roles:
+    - { role: common, when: portal_upgrade == 'true' }
+    - { role: docker, when: portal_upgrade == 'true' }
+    - { role: users, when: portal_upgrade == 'true' }
+    - { role: selinux, when: selinux_enabled == 'true'}
+    - nginx
+    - portal_common
+    - portal_main
