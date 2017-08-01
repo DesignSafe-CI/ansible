@@ -1,16 +1,16 @@
 ---
 # Create various application directories
-- name: Create /designsafe directory
-  file: path=/designsafe state=directory owner=portal group=portal
+- name: Create designsafe directory
+  file: path=/srv/www/designsafe state=directory owner=portal group=portal
 
-- name: Create /designsafe/media directory
-  file: path=/designsafe/media state=directory owner=tg458981 group=G-80610
+- name: Create designsafe/media directory
+  file: path=/srv/www/designsafe/media state=directory owner=tg458981 group=G-816877
 
-- name: Create /designsafe/static directory
-  file: path=/designsafe/static state=directory owner=tg458981 group=G-80610
+- name: Create designsafe/static directory
+  file: path=/srv/www/designsafe/static state=directory owner=tg458981 group=G-816877
 
 - name: Create /designsafe/redis_data directory
-  file: path=/designsafe/redis_data state=directory owner=999
+  file: path=/srv/www/designsafe/redis_data state=directory owner=999
 
 # Pull Application Images
 - name: Pull buildpack-deps image
