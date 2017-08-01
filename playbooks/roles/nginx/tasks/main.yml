@@ -12,8 +12,16 @@
 
 - name: Copy TLS certs
   copy: src={{ nginx_tls_certs_path }} dest=/etc/ssl
+  when: "'vagrant' not in group_names"
   notify:
     - restart nginx
+
+- name: Copy TLS certs to VM
+  copy:
+    src: "{{dummy_certs_path}}/{{ item }}"
+    dest: "/etc/ssl/{{ item }}"
+  with_items: ["dummy.crt", "dummy.key"]
+  when: "'vagrant' in group_names"
 
 - name: Copy gzip.conf configuration to /etc/nginx/
   copy: src=gzip.conf dest=/etc/nginx/gzip.conf
