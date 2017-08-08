@@ -23,9 +23,19 @@
     name: elasticsearch
     
 - name: Write elasticsearch config
-  copy:
-    src: elasticsearch.yml 
+  template:
+    src: elasticsearch.yml.j2 
     dest: /etc/elasticsearch/elasticsearch.yml
+
+- name: Create systemd conf directory for Elasticsearch
+  file:
+    path: /etc/systemd/system/elasticsearch.service.d
+    state: directory
+
+- name: Write elasticsearch systemd unit config
+  copy:
+    src: elasticsearch.conf
+    dest: /etc/systemd/system/elasticsearch.service.d/elasticsearch.conf
     
 - name: Enable Elasticsearch service
   command: "systemctl enable elasticsearch"

@@ -53,7 +53,9 @@ node.name: {{ inventory_hostname }}
 # Set the bind address to a specific IP (IPv4 or IPv6):
 #
 network.host: ["[::]"]
+{% if 'vagrant' not in group_names and inventory_hostname != 'localhost' %}
 network.publish_host: {{ inventory_hostname }}.tacc.utexas.edu
+{% endif %}
 #
 # Set a custom port for HTTP:
 #
@@ -65,8 +67,9 @@ network.publish_host: {{ inventory_hostname }}.tacc.utexas.edu
 #
 # Pass an initial list of hosts to perform discovery when new node is started:
 # The default list of hosts is ["127.0.0.1", "[::1]"]
-discovery.zen.ping.multicast.enabled: false
+{% if 'vagrant' not in group_names and inventory_hostname != 'localhost' %}
 discovery.zen.ping.unicast.hosts: ["designsafe-es01.tacc.utexas.edu", "designsafe-es02.tacc.utexas.edu"]
+{% endif %}
 #
 # Prevent the "split brain" by configuring the majority of nodes (total number of master-eligible nodes / 2 + 1):
 #
@@ -87,4 +90,4 @@ discovery.zen.ping.unicast.hosts: ["designsafe-es01.tacc.utexas.edu", "designsaf
 # Require explicit names when deleting indices:
 #
 #action.destructive_requires_name: true
-bootstarp.mlockall: true
+bootstrap.memory_lock: true
