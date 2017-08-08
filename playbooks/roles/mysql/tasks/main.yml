@@ -1,0 +1,32 @@
+---
+- name: Install mysql
+  yum:
+    name: https://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm
+    state: present
+
+- name: Install mysql community server
+  yum:
+    name: mysql-community-server
+    state: present
+
+- name: Start MySQL
+  service:
+    name: mysqld
+    state: started
+    enabled: true
+
+- name: Change mysql root password and keep track in
+  shell: |
+    password_match=`awk '/A temporary password is generated for/ {a=$0} END{ print a }' /var/log/mysqld.log | awk '{print $(NF)}'`
+    echo $password_match
+    mysql  -uroot -p$password_match --connect-expired-password -e "ALTER USER 'root'@'localhost' IDENTIFIED BY  '{{mysql_root_pwd}}'; flush privileges; "
+    echo "[client]
+    user=root
+    password={{mysql_root_pwd}}" > /root/.my.cnf
+  args:
+    creates: /root/.my.cnf
+  register: change_temp_pass
+
+- name: Allowing root remotely
+  shell: "mysql -uroot -p{{mysql_root_pwd}} -e \"GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '{{mysql_root_pwd}}' WITH GRANT OPTION; FLUSH PRIVILEGES;\" "
+  when: '"vagrant" in group_names '
