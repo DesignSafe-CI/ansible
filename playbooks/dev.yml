@@ -8,9 +8,17 @@
 
   roles:
     - { role: common, when: portal_upgrade == 'true' }
-    - { role: docker, when: portal_upgrade == 'true' }
-    - { role: users, when: portal_upgrade == 'true' }
+    - { role: docker, when: portal_upgrade == 'true' and 
+                            not inventory_hostname.startswith('des-elasticsearch')}
+    - { role: users, when: portal_upgrade == 'true'}
     - { role: selinux, when: selinux_enabled == 'true'}
-    - nginx
-    - portal_common
-    - portal_main
+    - { role: mysql, when: portal_upgrade == 'true' and 
+        ( inventory_hostname.startswith('des-portal') or inventory_hostname == 'localhost')}
+    - { role: elasticsearch, when: portal_upgrade == 'true' and
+        ( inventory_hostname.startswith('des-elasticsearch') or inventory_hostname == 'localhost')}
+    - { role: rabbitmq, when: portal_upgrade == 'true' and 
+        ( inventory_hostname.startswith('des-workers') or inventory_hostname == 'localhost')}
+    - { role: nginx, when: inventory_hostname.startswith('des-portal') or 
+                           inventory_hostname == 'localhost'}
+    - { role: portal_common, when: not inventory_hostname.startswith('des-elasticsearch') }
+    - { role: portal_main, when: not inventory_hostname.startswith('des-elasticsearch') }
