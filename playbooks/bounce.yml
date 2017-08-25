@@ -1,33 +1,78 @@
 ---
 - name: Bounce services
   hosts: rodeo
+  serial: 1
+  any_errors_fatal: True
   become: yes
   become_method: sudo
-
+  vars:
+    send_action: 'restart'
 
   tasks:
-  - name: Enable docker daemon in systemd
+  - name: nginx Daemon | Stop
     service:
-        enabled=yes
-        name=docker
-        state=restarted
+      name: nginx
+      state: stopped
+    when: send_action == 'restart' or send_action == 'stop' and
+          not inventory_hostname.startswith('designsafe-es')
 
-  - name: Enable nginx daemon in systemd
+  - name: designsafe Daemon | Stop
     service:
-        enabled=yes
-        name=nginx
-        state=restarted
+      name: designsafe
+      state: stopped
+    when: send_action == 'restart' or send_action == 'stop' and
+          inventory_hostname in ['worker-prod', 'portal-prod', 'worker-dev', 'portal-dev']
 
-  - name: Enable and start designsafe daemon in systemd
+  - name: designsafe-ef Daemon | Stop
     service:
-        enabled=yes
-        name=designsafe
-        state=restarted
-    # notify: restart docker
+      name: designsafe-ef
+      state: stopped
+    when: send_action == 'restart' or send_action == 'stop' and
+          inventory_hostname == 'designsafe-ef'
 
-  - name: Enable and start designsafe-ef daemon in systemd
+  - name: elasticsearch Daemon | Stop
     service:
-        enabled=yes
-        name=designsafe-ef
-        state=restarted
-    # notify: restart docker
+      name: elasticsearch
+      state: stopped
+    when: send_action == 'restart' or send_action == 'stop' and
+          inventory_hostname.startswith('designsafe-es')
+
+  - name: docker Daemon | Stop
+    service:
+      name: docker
+      state: stopped
+    when: send_action == 'restart' or send_action == 'stop'
+
+  - name: docker Daemon | Start
+    service:
+      name: docker
+      state: started
+    when: send_action == 'restart' or send_action == 'start'
+
+  - name: designsafe Daemon | Start
+    service:
+      name: designsafe
+      state: started
+    when: send_action == 'restart' or send_action == 'start' and
+          inventory_hostname in ['worker-prod', 'portal-prod', 'worker-dev', 'portal-dev']
+
+  - name: designsafe-ef Daemon | Start
+    service:
+      name: designsafe-ef
+      state: started
+    when: send_action == 'restart' or send_action == 'start' and
+          inventory_hostname == 'designsafe-ef'
+
+  - name: elasticsearch Daemon | Start
+    service:
+      name: elasticsearch
+      state: started
+    when: send_action == 'restart' or send_action == 'start' and
+          inventory_hostname.startswith('designsafe-es')
+
+  - name: nginx Daemon | Start
+    service:
+      name: nginx
+      state: stopped
+    when: send_action == 'restart' or send_action == 'start' and
+          not inventory_hostname.startswith('designsafe-es')
