@@ -13,68 +13,68 @@
     service:
       name: nginx
       state: stopped
-    when: send_action == 'restart' or send_action == 'stop' and
-          not inventory_hostname.startswith('designsafe-es')
+    when: (send_action == 'restart' or send_action == 'stop') and
+          (not inventory_hostname.startswith('designsafe-es'))
 
   - name: designsafe Daemon | Stop
     service:
       name: designsafe
       state: stopped
-    when: send_action == 'restart' or send_action == 'stop' and
-          inventory_hostname in ['worker-prod', 'portal-prod', 'worker-dev', 'portal-dev']
+    when: (send_action == 'restart' or send_action == 'stop') and
+          (inventory_hostname in ['worker-prod', 'portal-prod', 'worker-dev', 'portal-dev'])
 
   - name: designsafe-ef Daemon | Stop
     service:
       name: designsafe-ef
       state: stopped
-    when: send_action == 'restart' or send_action == 'stop' and
-          inventory_hostname == 'designsafe-ef'
+    when: (send_action == 'restart' or send_action == 'stop') and
+          (inventory_hostname == 'designsafe-ef')
 
   - name: elasticsearch Daemon | Stop
     service:
       name: elasticsearch
       state: stopped
-    when: send_action == 'restart' or send_action == 'stop' and
-          inventory_hostname.startswith('designsafe-es')
+    when: (send_action == 'restart' or send_action == 'stop') and
+          (inventory_hostname.startswith('designsafe-es'))
 
   - name: docker Daemon | Stop
     service:
       name: docker
       state: stopped
-    when: send_action == 'restart' or send_action == 'stop' and
-          inventory_hostname != 'designsafe-es01-dev'
+    when: (send_action == 'restart' or send_action == 'stop') and
+          (inventory_hostname != 'designsafe-es01-dev')
 
   - name: docker Daemon | Start
     service:
       name: docker
       state: started
-    when: send_action == 'restart' or send_action == 'start' and
-          inventory_hostname != 'designsafe-es01-dev'
+    when: (send_action == 'restart' or send_action == 'start') and
+          (inventory_hostname != 'designsafe-es01-dev')
 
   - name: designsafe Daemon | Start
     service:
       name: designsafe
       state: started
-    when: send_action == 'restart' or send_action == 'start' and
-          inventory_hostname in ['worker-prod', 'portal-prod', 'worker-dev', 'portal-dev']
+    when: (send_action == 'restart' or send_action == 'start') and
+          (inventory_hostname in ['worker-prod', 'portal-prod', 'worker-dev', 'portal-dev'])
 
   - name: designsafe-ef Daemon | Start
     service:
       name: designsafe-ef
       state: started
-    when: send_action == 'restart' or send_action == 'start' and
-          inventory_hostname == 'designsafe-ef'
+    when: (send_action == 'restart' or send_action == 'start') and
+          (inventory_hostname == 'designsafe-ef')
 
   - name: elasticsearch Daemon | Start
     service:
       name: elasticsearch
       state: started
-    when: send_action == 'restart' or send_action == 'start' and
-          inventory_hostname.startswith('designsafe-es')
+    when: (send_action == 'restart' or send_action == 'start') and
+          (inventory_hostname.startswith('designsafe-es'))
 
   - name: nginx Daemon | Start
     service:
       name: nginx
       state: stopped
-    when: send_action == 'restart' or send_action == 'start' and
-          not inventory_hostname.startswith('designsafe-es')
+    when: (send_action == 'restart' or send_action == 'start') and
+          (not inventory_hostname.startswith('designsafe-es'))
