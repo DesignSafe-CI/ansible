@@ -1,6 +1,6 @@
 ---
 - name: Bounce services
-  hosts: rodeo
+  hosts: all
   serial: 1
   any_errors_fatal: True
   become: yes
