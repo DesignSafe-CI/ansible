@@ -41,13 +41,15 @@
     service:
       name: docker
       state: stopped
-    when: send_action == 'restart' or send_action == 'stop'
+    when: send_action == 'restart' or send_action == 'stop' and
+          inventory_hostname != 'designsafe-es01-dev'
 
   - name: docker Daemon | Start
     service:
       name: docker
       state: started
-    when: send_action == 'restart' or send_action == 'start'
+    when: send_action == 'restart' or send_action == 'start' and
+          inventory_hostname != 'designsafe-es01-dev'
 
   - name: designsafe Daemon | Start
     service:
