@@ -28,11 +28,11 @@
          'vagrant' not in group_names
 
 - name: Run Django migrations
-  command: docker exec designsafe_django_1 python manage.py migrate
+  command: docker exec designsafe_django_1 python /srv/www/designsafe/manage.py migrate
   when: (inventory_hostname != "worker-prod" and inventory_hostname != "worker-dev") and
          'vagrant' not in group_names
 
 - name: Run Django collectstatic
-  command: docker exec designsafe_django_1 python manage.py collectstatic --noinput
+  command: docker exec designsafe_django_1 python /srv/www/designsafe/manage.py collectstatic --noinput
   when: (inventory_hostname != "worker-prod" and inventory_hostname != "worker-dev") and
          'vagrant' not in group_names
