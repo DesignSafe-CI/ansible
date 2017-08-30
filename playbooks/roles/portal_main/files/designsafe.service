@@ -5,8 +5,8 @@ After=docker.service
 
 [Service]
 User=portal
-ExecStart=/usr/local/bin/docker-compose -f /designsafe/docker-compose.yml up
-ExecStop=/usr/local/bin/docker-compose -f /designsafe/docker-compose.yml stop ; /usr/local/bin/docker-compose -f /designsafe/docker-compose.yml rm -f
+ExecStart=/usr/local/bin/docker-compose -f /srv/www/designsafe/docker-compose.yml up
+ExecStop=/usr/local/bin/docker-compose -f /srv/www/designsafe/docker-compose.yml stop ; /usr/local/bin/docker-compose -f /srv/www/designsafe/docker-compose.yml rm -f
 Restart=always
 
 [Install]
