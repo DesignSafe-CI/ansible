@@ -22,7 +22,7 @@ websocket:
         - memcached:memcached
     volumes_from:
         - data
-    command: /usr/local/bin/uwsgi --ini /portal/conf/uwsgi/uwsgi_websocket.ini
+    command: /usr/local/bin/uwsgi --ini /srv/www/designsafe/conf/uwsgi/uwsgi_websocket.ini
 
 django:
     image: designsafeci/portal:{{ version }}
@@ -37,4 +37,4 @@ django:
         - memcached:memcached
     volumes_from:
         - data
-    command: newrelic-admin run-program /usr/local/bin/uwsgi --ini /portal/conf/uwsgi/uwsgi.ini
+    command: newrelic-admin run-program /usr/local/bin/uwsgi --ini /srv/www/designsafe/conf/uwsgi/uwsgi.ini
