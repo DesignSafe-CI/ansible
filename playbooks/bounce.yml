@@ -16,19 +16,19 @@
     when: (send_action == 'restart' or send_action == 'stop') and
           (not inventory_hostname.startswith('designsafe-es'))
 
-  - name: designsafe Daemon | Stop
-    service:
-      name: designsafe
-      state: stopped
-    when: (send_action == 'restart' or send_action == 'stop') and
-          (inventory_hostname in ['worker-prod', 'portal-prod', 'worker-dev', 'portal-dev'])
+  #- name: designsafe Daemon | Stop
+  #  service:
+  #    name: designsafe
+  #    state: stopped
+  #  when: (send_action == 'restart' or send_action == 'stop') and
+  #        (inventory_hostname in ['worker-prod', 'portal-prod', 'worker-dev', 'portal-dev'])
 
-  - name: designsafe-ef Daemon | Stop
-    service:
-      name: designsafe-ef
-      state: stopped
-    when: (send_action == 'restart' or send_action == 'stop') and
-          (inventory_hostname == 'designsafe-ef')
+  #- name: designsafe-ef Daemon | Stop
+  #  service:
+  #    name: designsafe-ef
+  #    state: stopped
+  #  when: (send_action == 'restart' or send_action == 'stop') and
+  #        (inventory_hostname == 'designsafe-ef')
 
   - name: elasticsearch Daemon | Stop
     service:
@@ -51,19 +51,19 @@
     when: (send_action == 'restart' or send_action == 'start') and
           (inventory_hostname != 'designsafe-es01-dev')
 
-  - name: designsafe Daemon | Start
-    service:
-      name: designsafe
-      state: started
-    when: (send_action == 'restart' or send_action == 'start') and
-          (inventory_hostname in ['worker-prod', 'portal-prod', 'worker-dev', 'portal-dev'])
+  #- name: designsafe Daemon | Start
+  #  service:
+  #    name: designsafe
+  #    state: started
+  #  when: (send_action == 'restart' or send_action == 'start') and
+  #        (inventory_hostname in ['worker-prod', 'portal-prod', 'worker-dev', 'portal-dev'])
 
-  - name: designsafe-ef Daemon | Start
-    service:
-      name: designsafe-ef
-      state: started
-    when: (send_action == 'restart' or send_action == 'start') and
-          (inventory_hostname == 'designsafe-ef')
+  #- name: designsafe-ef Daemon | Start
+  #  service:
+  #    name: designsafe-ef
+  #    state: started
+  #  when: (send_action == 'restart' or send_action == 'start') and
+  #        (inventory_hostname == 'designsafe-ef')
 
   - name: elasticsearch Daemon | Start
     service:
