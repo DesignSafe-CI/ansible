@@ -24,6 +24,8 @@
       when: portal_frontend_build|failed
 
   roles:
+    - { role: stop_portal_dev, when: inventory_hostname == "worker-dev" }
+    - { role: stop_portal_prod, when: inventory_hostname == "worker-prod" }
     - { role: common, when: portal_upgrade == 'true' }
     - { role: docker, when: portal_upgrade == 'true' }
     - { role: users, when: portal_upgrade == 'true' }
