@@ -19,6 +19,12 @@
     name: designsafeci/portal
     tag: '{{version}}'
     dockerfile: conf/docker/Dockerfile
-    push: yes
     repository: designsafeci/portal
+  delegate_to: localhost
+
+- name: Push Docker Image
+  docker_image:
+    name: designsafeci/portal
+    tag: '{{version}}'
+    push: yes 
   delegate_to: localhost
