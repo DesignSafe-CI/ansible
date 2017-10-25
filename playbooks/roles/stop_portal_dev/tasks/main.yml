@@ -1,6 +1,6 @@
 ---
 - name: Stop DEV portal before upgrading image in workers
-  - service:
+  service:
     name: designsafe
     state: stopped
   delegate_to: portal-dev
