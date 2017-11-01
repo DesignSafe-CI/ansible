@@ -39,4 +39,4 @@ django:
         - data
     volumes:
         - /srv/www/designsafe/client_secrets.json:/srv/www/designsafe/designsafe/client_secrets.json
-    command: newrelic-admin run-program /usr/local/bin/uwsgi --ini /srv/www/designsafe/conf/uwsgi/uwsgi.ini
+    command: newrelic-admin run-program /usr/local/bin/uwsgi --ini {{uwsgi_ini_path}}
