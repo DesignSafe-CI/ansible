@@ -1,9 +1,9 @@
 data:
     image: buildpack-deps:trusty
     volumes:
-        - /designsafe/static:/var/www/designsafe-ci.org/static
-        - /designsafe/media:/var/www/designsafe-ci.org/media
-        - /designsafe/redis_data:/data
+        - /var/www/designsafe/static:/var/www/designsafe-ci.org/static
+        - /var/www/designsafe/media:/var/www/designsafe-ci.org/media
+        - /var/www/designsafe/redis_data:/data
         - /corral-repl/tacc/NHERI:/corral-repl/tacc/NHERI
 
 memcached:
@@ -37,4 +37,6 @@ django:
         - memcached:memcached
     volumes_from:
         - data
+    volumes:
+        - /var/www/designsafe/client_secrets.json:/srv/www/designsafe/designsafe/client_secrets.json
     command: newrelic-admin run-program /usr/local/bin/uwsgi --ini /srv/www/designsafe/conf/uwsgi/uwsgi.ini

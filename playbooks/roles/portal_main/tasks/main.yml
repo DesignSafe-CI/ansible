@@ -16,6 +16,11 @@
   notify:
     - reload systemd
 
+- name: Copy google JSON settings
+  template:
+    src: google_client_secrets.json.j2
+    dest: /srv/www/designsafe/client_secrets.json
+
 - name: Enable and start designsafe daemon in systemd
   service:
       enabled=yes
