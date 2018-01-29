@@ -1,5 +1,6 @@
 #!/bin/bash
-PIDFILE=/home/designsafe/.nigtly_dev_build.pid
+#PIDFILE=/home/designsafe/.nigtly_dev_build.pid
+PIDFILE=/Users/xirdneh/.nigtly_dev_build.pid
 SLACK_WEBHOOK=$DEV_BUILD_SLACK_WEBHOOK
 
 #Setting ansible.cfg
@@ -32,7 +33,7 @@ fi
 # MM = 2 digit month
 # ## = 2 digit number of release of the month
 # e.g. 20171006 - 6th release of October/2017
-LATEST=$(git ls-remote https://github.com/DesignSafe-CI/portal.git | grep -e 'refs\/tags\/[0-9]\{8\}\^' | sed "s/refs\/tags\/\([0-9]*\).*/\1/g" | awk '{print $2}' | sort -r | sed -n 1p)
+LATEST=$(git ls-remote https://github.com/DesignSafe-CI/portal.git | grep -e 'refs\/tags\/[0-9]\{8\}$' | sed "s/refs\/tags\/\([0-9]*\).*/\1/g" | awk '{print $2}' | sort -r | sed -n 1p)
 echo "Latest tag in GIT repo ${LATEST}"
 
 #Check latest tag in docker hub
@@ -45,7 +46,7 @@ echo "Latest docker image tag in docker hub ${REMOTE_LATEST}"
 push_release=false
 
 # If year or month is greater do a push release
-if [ "${LATEST:0:4}" -gt "${REMOTE_LATEST:0:4}" ] || [ "${LATEST:4:2}" -gt "${REMOTE_LATEST:4:2}" ]
+if [ "${LATEST:0:4}" -gt "${REMOTE_LATEST:0:4}" ] || [ "${LATEST:0:4}" -gt "${REMOTE_LATEST:0:4}" && "${LATEST:4:2}" -gt "${REMOTE_LATEST:4:2}" ]
 then
   echo "Latest version is greater than docker hub latest tag"
   push_release=true
