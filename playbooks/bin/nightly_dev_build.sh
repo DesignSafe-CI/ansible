@@ -36,6 +36,7 @@ fi
 LATEST=$(git ls-remote https://github.com/DesignSafe-CI/portal.git | grep -e 'refs\/tags\/[0-9]\{8\}$' | sed "s/refs\/tags\/\([0-9]*\).*/\1/g" | awk '{print $2}' | sort -r | sed -n 1p)
 echo "Latest tag in GIT repo ${LATEST}"
 
+
 #Check latest tag in docker hub
 REMOTE_LATEST=$(wget -q https://registry.hub.docker.com/v1/repositories/designsafeci/portal/tags -O -  | sed -e 's/[][]//g' -e 's/"//g' -e 's/ //g' | tr '}' '\n'  | awk -F: '{print $3}' | grep -e '[0-9]\{8\}' | sort -r | sed -n 1p)
 echo "Latest docker image tag in docker hub ${REMOTE_LATEST}"
@@ -46,7 +47,7 @@ echo "Latest docker image tag in docker hub ${REMOTE_LATEST}"
 push_release=false
 
 # If year or month is greater do a push release
-if [ "${LATEST:0:4}" -gt "${REMOTE_LATEST:0:4}" ] || [ "${LATEST:0:4}" -gt "${REMOTE_LATEST:0:4}" && "${LATEST:4:2}" -gt "${REMOTE_LATEST:4:2}" ]
+if [ "${LATEST:0:4}" -gt "${REMOTE_LATEST:0:4}" ] || [[ "${LATEST:0:4}" -gt "${REMOTE_LATEST:0:4}" && "${LATEST:4:2}" -gt "${REMOTE_LATEST:4:2}" ]]
 then
   echo "Latest version is greater than docker hub latest tag"
   push_release=true
