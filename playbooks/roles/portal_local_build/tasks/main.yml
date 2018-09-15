@@ -1,4 +1,7 @@
 ---
+- name: Copy External resource secret dummy.
+  copy: src=files/external_resource_secrets.py dest=/home/designsafe/portal/designsafe/settings/external_resource_secrets.py
+
 - name: Checkout DesignSafe-CI/portal.git repository
   git:
     repo: https://github.com/designsafe-ci/portal.git
