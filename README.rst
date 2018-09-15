@@ -73,6 +73,7 @@ QA/Testing
 * Inventory group: ``designsafe_portal_qa``
 * Variables file: ``~/.ansible/designsafe/vars/portal_qa.yml``
 * Playbook: ``playbooks/portal_qa.yml``
+* Commands: ``ansible-playbook playbooks/portal_qa.yml --limit=portal-dev -vvv && ansible-playbook playbooks/portal_qa.yml --limit=worker-dev -vvv``
 
 DesignSafe EF Sites
 -------------------
