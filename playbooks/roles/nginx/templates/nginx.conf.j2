@@ -63,15 +63,15 @@ http {
         }
 
         location /media  {
-            alias /designsafe/media;
+            alias /var/www/designsafe/media;
         }
 
         location /static {
-            alias /designsafe/static;
+            alias /var/www/designsafe/static;
         }
 
         location /favicon.ico {
-            alias /designsafe/static/favicon.ico;
+            alias /var/www/designsafe/static/favicon.ico;
         }
 
         location /robots.txt {

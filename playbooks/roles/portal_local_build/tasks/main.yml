@@ -4,14 +4,12 @@
     repo: https://github.com/designsafe-ci/portal.git
     dest: /home/designsafe/portal
     version: '{{version}}'
-  delegate_to: localhost
 
 - name: Login to Docker Hub
   docker_login:
     username: '{{docker_login.username}}'
     password: '{{docker_login.password}}'
     email: '{{docker_login.email}}'
-  delegate_to: localhost
 
 - name: Build Docker Image
   docker_image:
@@ -20,11 +18,9 @@
     tag: '{{version}}'
     dockerfile: conf/docker/Dockerfile
     repository: designsafeci/portal
-  delegate_to: localhost
 
 - name: Push Docker Image
   docker_image:
     name: designsafeci/portal
     tag: '{{version}}'
     push: yes 
-  delegate_to: localhost

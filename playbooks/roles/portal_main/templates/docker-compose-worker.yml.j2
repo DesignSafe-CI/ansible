@@ -29,4 +29,6 @@ worker:
         - memcached:memcached
     volumes_from:
         - data
+    volumes:
+        - /srv/www/designsafe/client_secrets.json:/srv/www/designsafe/designsafe/settings/client_secrets.json
     command: ./bin/run-celery.sh
