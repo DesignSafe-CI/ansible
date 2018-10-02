@@ -26,6 +26,9 @@
     src: external_resource_secrets.j2
     dest: /srv/www/designsafe/external_resource_secrets.py
 
+- name: Create conf path
+  file: path=/srv/www/designsafe/conf state=directory owner=portal group=portal
+
 - name: Copy UWSGI ini file
   template:
     src: uwsgi.ini.j2
