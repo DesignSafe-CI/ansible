@@ -36,6 +36,11 @@
 - name: Install pip
   command: easy_install pip
 
+- name: Upgrade pip
+  pip:
+      name: "pip"
+      extra_args: "--upgrade"
+
 - name: Install virtualenv
   command: pip install virtualenv
 
@@ -48,3 +53,6 @@
   yum:
     name: nfs-utils
     state: present
+
+- name: Install libsemanage-python
+  yum: name=libsemanage-python state=present

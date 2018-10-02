@@ -1,12 +1,16 @@
 ---
 - name: Copy External resource secret dummy.
   copy: src=files/external_resource_secrets.py dest=/home/designsafe/portal/designsafe/settings/external_resource_secrets.py
+  when: (inventory_hostname != 'worker-prod' and inventory_hostname != 'worker-dev') and
+         'vagrant' not in group_names
 
 - name: Checkout DesignSafe-CI/portal.git repository
   git:
     repo: https://github.com/designsafe-ci/portal.git
     dest: /home/designsafe/portal
     version: '{{version}}'
+  when: (inventory_hostname != 'worker-prod' and inventory_hostname != 'worker-dev') and
+         'vagrant' not in group_names
 
 - name: Login to Docker Hub
   docker_login:
@@ -21,9 +25,19 @@
     tag: '{{version}}'
     dockerfile: conf/docker/Dockerfile
     repository: designsafeci/portal
+  when: (inventory_hostname != 'worker-prod' and inventory_hostname != 'worker-dev') and
+         'vagrant' not in group_names
+
+- name: Pull Docker Image (If this fails run --limit=portal-dev)
+  docker_image:
+    name: "designsafeci/portal:{{version}}"
+  when: (inventory_hostname != 'portal-prod' and inventory_hostname != 'portal-dev') and
+         'vagrant' not in group_names
 
 - name: Push Docker Image
   docker_image:
     name: designsafeci/portal
     tag: '{{version}}'
     push: yes 
+  when: (inventory_hostname != 'worker-prod' and inventory_hostname != 'worker-dev') and
+         'vagrant' not in group_names

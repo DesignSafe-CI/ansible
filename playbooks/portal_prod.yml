@@ -4,24 +4,24 @@
   vars_files:
     - ~/.ansible/designsafe/vars/portal_prod.yml
 
-  pre_tasks:
-    - name: Get Portal Jenkins Latest Build
-      delegate_to: localhost
-      command: python bin/check-jenkins-status.py https://jenkins01.tacc.utexas.edu DesignSafeCI_Portal
-      register: portal_build
+  # pre_tasks:
+  #   - name: Get Portal Jenkins Latest Build
+  #     delegate_to: localhost
+  #     command: python bin/check-jenkins-status.py https://jenkins01.tacc.utexas.edu DesignSafeCI_Portal
+  #     register: portal_build
 
-    - name: Validate Portal Jenkins Latest Build
-      fail: msg="Portal Jenkins Latest Build status is FAILED. Please fix this"
-      when: portal_build|failed
+  #   - name: Validate Portal Jenkins Latest Build
+  #     fail: msg="Portal Jenkins Latest Build status is FAILED. Please fix this"
+  #     when: portal_build|failed
 
-    - name: Get Portal Frontend Jenkins Latest Build
-      delegate_to: localhost
-      command: python bin/check-jenkins-status.py https://jenkins01.tacc.utexas.edu DesignSafeCI_Portal_Frontend
-      register: portal_frontend_build
+  #   - name: Get Portal Frontend Jenkins Latest Build
+  #     delegate_to: localhost
+  #     command: python bin/check-jenkins-status.py https://jenkins01.tacc.utexas.edu DesignSafeCI_Portal_Frontend
+  #     register: portal_frontend_build
 
-    - name: Validate Portal Frontend Jenkins Latest Build
-      fail: msg="Portal Frontend Jenkins Latest Build status is FAILED. Please fix this"
-      when: portal_frontend_build|failed
+  #   - name: Validate Portal Frontend Jenkins Latest Build
+  #     fail: msg="Portal Frontend Jenkins Latest Build status is FAILED. Please fix this"
+  #     when: portal_frontend_build|failed
 
   roles:
     - { role: common, when: portal_upgrade == 'true' }
@@ -30,5 +30,5 @@
     - { role: selinux, when: selinux_enabled == 'true'}
     - nginx
     - portal_common
-    - portal_remote_build
+    - portal_local_build
     - portal_main

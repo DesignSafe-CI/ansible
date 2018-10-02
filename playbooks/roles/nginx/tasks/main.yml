@@ -19,11 +19,13 @@
 
 - name: Copy gzip.conf configuration to /etc/nginx/
   copy: src=gzip.conf dest=/etc/nginx/gzip.conf
+  when: portal_upgrade == 'true'
   notify:
     - restart nginx
 
 - name: Create dhparam.pem
   command: openssl dhparam -out /etc/ssl/dhparam.pem 2048 creates=/etc/ssl/dhparam.pem
+  when: portal_upgrade == 'true'
 
 - name: Copy error pages
   copy: src=error dest=/usr/share/nginx/html
