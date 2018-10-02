@@ -29,7 +29,7 @@
 - name: Copy UWSGI ini file
   template:
     src: uwsgi.ini.j2
-    dest: {{uwsgi.ini_path}}
+    dest: "{{uwsgi.ini_path}}"
 
 - name: Enable and start designsafe daemon in systemd
   service:
