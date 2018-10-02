@@ -29,6 +29,9 @@
 - name: Create conf path
   file: path=/srv/www/designsafe/conf state=directory owner=portal group=portal
 
+- name: Create uwsgi conf path
+  file: path=/srv/www/designsafe/conf/uwsgi state=directory owner=portal group=portal
+
 - name: Copy UWSGI ini file
   template:
     src: uwsgi.ini.j2
