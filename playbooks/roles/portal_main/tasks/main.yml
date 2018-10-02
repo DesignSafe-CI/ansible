@@ -21,6 +21,16 @@
     src: google_client_secrets.json.j2
     dest: /srv/www/designsafe/client_secrets.json
 
+- name: Copy External Resource Secrets
+  template:
+    src: external_resource_secrets.j2
+    dest: /srv/www/designsafe/external_resource_secrets.py
+
+- name: Copy UWSGI ini file
+  template:
+    src: uwsgi.ini.j2
+    dest: {{uwsgi.ini_path}}
+
 - name: Enable and start designsafe daemon in systemd
   service:
       enabled=yes

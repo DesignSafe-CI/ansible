@@ -67,15 +67,15 @@ http {
         }
 
         location /static {
-            alias /var/www/designsafe/static;
+            alias /srv/www/designsafe/static;
         }
 
         location /favicon.ico {
-            alias /var/www/designsafe/static/favicon.ico;
+            alias /srv/www/designsafe/static/favicon.ico;
         }
 
         location /robots.txt {
-            alias /designsafe/robots.txt;
+            alias /srv/www/designsafe/robots.txt;
         }
 
         location / {

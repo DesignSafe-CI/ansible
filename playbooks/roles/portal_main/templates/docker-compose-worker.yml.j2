@@ -1,11 +1,3 @@
-data:
-    image: buildpack-deps:trusty
-    volumes:
-        - /designsafe/static:/var/www/designsafe-ci.org/static
-        - /designsafe/media:/var/www/designsafe-ci.org/media
-        - /designsafe/redis_data:/data
-        - /corral-repl/tacc/NHERI:/corral-repl/tacc/NHERI
-
 redis:
     image: redis
     command: redis-server --appendonly yes
@@ -27,8 +19,10 @@ worker:
     links:
         - redis:redis
         - memcached:memcached
-    volumes_from:
-        - data
     volumes:
+        - /srv/www/designsafe/static:/var/www/designsafe-ci.org/static
+        - /srv/www/designsafe/media:/var/www/designsafe-ci.org/media
+        - /srv/www/designsafe/redis_data:/data
+        - /corral-repl/tacc/NHERI:/corral-repl/tacc/NHERI
         - /srv/www/designsafe/client_secrets.json:/srv/www/designsafe/designsafe/settings/client_secrets.json
     command: ./bin/run-celery.sh

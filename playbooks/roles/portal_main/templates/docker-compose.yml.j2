@@ -1,11 +1,3 @@
-data:
-    image: buildpack-deps:trusty
-    volumes:
-        - /srv/www/designsafe/static:/srv/www/designsafe-ci.org/static
-        - /srv/www/designsafe/media:/srv/www/designsafe-ci.org/media
-        - /srv/www/designsafe/redis_data:/data
-        - /corral-repl/tacc/NHERI:/corral-repl/tacc/NHERI
-
 memcached:
     image: memcached
 
@@ -20,8 +12,11 @@ websocket:
         - 9000:9000
     links:
         - memcached:memcached
-    volumes_from:
-        - data
+    volumes:
+        - /srv/www/designsafe/static:/srv/www/designsafe/static
+        - /srv/www/designsafe/media:/srv/www/designsafe/media
+        - /srv/www/designsafe/redis_data:/data
+        - /corral-repl/tacc/NHERI:/corral-repl/tacc/NHERI
     command: /usr/local/bin/uwsgi --ini /srv/www/designsafe/conf/uwsgi/uwsgi_websocket.ini
 
 django:
@@ -35,10 +30,12 @@ django:
     - 8000:8000
     links:
         - memcached:memcached
-    volumes_from:
-        - data
     volumes:
+        - /srv/www/designsafe/static:/srv/www/designsafe/static
+        - /srv/www/designsafe/media:/srv/www/designsafe/media
+        - /srv/www/designsafe/redis_data:/data
+        - /corral-repl/tacc/NHERI:/corral-repl/tacc/NHERI
         - /srv/www/designsafe/client_secrets.json:/srv/www/designsafe/designsafe/client_secrets.json
-        - /srv/www/designsafe/uwsgi.ini:/srv/www/designsafe/conf/uwsgi/uwsgi_dev.ini
+        - /srv/www/designsafe/uwsgi.ini:{{uwsgi.ini_path}}
         - /srv/www/designsafe/external_resource_secrets.py:/srv/www/designsafe/designsafe/settings/external_resource_secrets.py
-    command: newrelic-admin run-program /usr/local/bin/uwsgi --ini {{uwsgi_ini_path}}
+    command: newrelic-admin run-program /usr/local/bin/uwsgi --ini {{uwsgi.ini_path}}

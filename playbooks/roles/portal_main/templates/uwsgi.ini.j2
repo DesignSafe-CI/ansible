@@ -1,0 +1,23 @@
+[uwsgi]                                         
+plugin-dir = {{uwsgi.plugin_dir}}
+stats = {{uwsgi.stats}}
+plugin = {{uwsgi.plugin}}
+stats-push = {{uwsgi.stats_push}}
+zabbix-template = {{uwsgi.zabbix_template}}
+                                                
+chdir = {{uwsgi.chdir}}
+module= {{uwsgi.module}}
+master = {{uwsgi.master}}
+pidfile = {{uwsgi.pidfile}}
+vacuum = {{uwsgi.vacuum}}
+processes = {{uwsgi.processes}}
+buffer-size = {{uwsgi.buffer_size}}
+harakiri = {{uwsgi.harakiri}}
+
+max-requests = {{uwsgi.max_requests}}
+uid = {{uwsgi.uid}}
+socket = {{uwsgi.socket}}
+enable-threads = {{uwsgi.enable_threads}}
+single-interpreter = {{uwsgi.single_interpreter}}
+memory-report                                   
+lazy-apps                                       
