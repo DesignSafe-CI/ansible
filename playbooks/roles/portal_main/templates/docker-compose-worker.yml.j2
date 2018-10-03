@@ -1,28 +1,30 @@
-redis:
-    image: redis
-    command: redis-server --appendonly yes
-    volumes_from:
-        - data
-    ports:
-        - 6379:6379
-
-memcached:
-    image: memcached
-
-worker:
-    image: designsafeci/portal:{{ version }}
-    env_file: designsafe.env
-    log_driver: syslog
-    log_opt:
-        tag: designsafe_taskqueue
-    hostname: {{worker_container_hostname}}
-    links:
-        - redis:redis
-        - memcached:memcached
-    volumes:
-        - /srv/www/designsafe/static:/var/www/designsafe-ci.org/static
-        - /srv/www/designsafe/media:/var/www/designsafe-ci.org/media
-        - /srv/www/designsafe/redis_data:/data
-        - /corral-repl/tacc/NHERI:/corral-repl/tacc/NHERI
-        - /srv/www/designsafe/client_secrets.json:/srv/www/designsafe/designsafe/settings/client_secrets.json
-    command: ./bin/run-celery.sh
+version: "3"
+services: 
+  restart: always
+  redis:
+      image: redis
+      command: redis-server --appendonly yes
+      ports:
+          - 6379:6379
+  
+  memcached:
+      image: memcached
+  
+  worker:
+      image: designsafeci/portal:{{ version }}
+      env_file: designsafe.env
+      log_driver: syslog
+      log_opt:
+          tag: designsafe_taskqueue
+      hostname: {{worker_container_hostname}}
+      links:
+          - redis:redis
+          - memcached:memcached
+      volumes:
+          - /srv/www/designsafe/static:/var/www/designsafe-ci.org/static
+          - /srv/www/designsafe/media:/var/www/designsafe-ci.org/media
+          - /srv/www/designsafe/redis_data:/data
+          - /corral-repl/tacc/NHERI:/corral-repl/tacc/NHERI
+          - /srv/www/designsafe/client_secrets.json:/srv/www/designsafe/designsafe/settings/client_secrets.json
+            - /srv/www/designsafe/external_resource_secrets.py:/srv/www/designsafe/designsafe/settings/external_resource_secrets.py
+      command: ./bin/run-celery.sh

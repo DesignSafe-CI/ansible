@@ -11,11 +11,6 @@
 - name: Set up application environment file
   template: src=designsafe.env.j2 dest=/srv/www/designsafe/designsafe.env
 
-- name: Copy systemd file designsafe.service
-  copy: src=designsafe.service dest=/usr/lib/systemd/system/designsafe.service
-  notify:
-    - reload systemd
-
 - name: Copy google JSON settings
   template:
     src: google_client_secrets.json.j2
@@ -37,11 +32,11 @@
     src: uwsgi.ini.j2
     dest: "{{uwsgi.ini_path}}"
 
-- name: Enable and start designsafe daemon in systemd
-  service:
-      enabled=yes
-      name=designsafe
-      state=restarted
+- name: Run docker-compose up
+  docker_service:
+      project_src: /srv/www/designsafe
+      pull: true
+      state: present
 
 - name: Wait for Django container to be running
   wait_for: port=8000

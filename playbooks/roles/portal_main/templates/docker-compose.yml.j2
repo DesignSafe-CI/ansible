@@ -1,41 +1,44 @@
-memcached:
-    image: memcached
-
-websocket:
-    image: designsafeci/portal:{{ version }}
-    env_file: designsafe.env
-    log_driver: syslog
-    log_opt:
-        tag: designsafe_websocket
-    hostname: {{websocket_container_hostname}}
-    ports:
-        - 9000:9000
-    links:
-        - memcached:memcached
-    volumes:
-        - /srv/www/designsafe/static:/srv/www/designsafe/static
-        - /srv/www/designsafe/media:/srv/www/designsafe/media
-        - /srv/www/designsafe/redis_data:/data
-        - /corral-repl/tacc/NHERI:/corral-repl/tacc/NHERI
-    command: /usr/local/bin/uwsgi --ini /srv/www/designsafe/conf/uwsgi/uwsgi_websocket.ini
-
-django:
-    image: designsafeci/portal:{{ version }}
-    env_file: designsafe.env
-    log_driver: syslog
-    log_opt:
-        tag: designsafe_main
-    hostname: {{django_container_hostname}}
-    ports:
-    - 8000:8000
-    links:
-        - memcached:memcached
-    volumes:
-        - /srv/www/designsafe/static:/srv/www/designsafe/static
-        - /srv/www/designsafe/media:/srv/www/designsafe/media
-        - /srv/www/designsafe/redis_data:/data
-        - /corral-repl/tacc/NHERI:/corral-repl/tacc/NHERI
-        - /srv/www/designsafe/client_secrets.json:/srv/www/designsafe/designsafe/client_secrets.json
-        - /srv/www/designsafe/uwsgi.ini:{{uwsgi.ini_path}}
-        - /srv/www/designsafe/external_resource_secrets.py:/srv/www/designsafe/designsafe/settings/external_resource_secrets.py
-    command: newrelic-admin run-program /usr/local/bin/uwsgi --ini {{uwsgi.ini_path}}
+version: "3"
+services:
+  restart: always
+  memcached:
+      image: memcached
+  
+  websocket:
+      image: designsafeci/portal:{{ version }}
+      env_file: designsafe.env
+      log_driver: syslog
+      log_opt:
+          tag: designsafe_websocket
+      hostname: {{websocket_container_hostname}}
+      ports:
+          - 9000:9000
+      links:
+          - memcached:memcached
+      volumes:
+          - /srv/www/designsafe/static:/srv/www/designsafe/static
+          - /srv/www/designsafe/media:/srv/www/designsafe/media
+          - /srv/www/designsafe/redis_data:/data
+          - /corral-repl/tacc/NHERI:/corral-repl/tacc/NHERI
+      command: /usr/local/bin/uwsgi --ini /srv/www/designsafe/conf/uwsgi/uwsgi_websocket.ini
+  
+  django:
+      image: designsafeci/portal:{{ version }}
+      env_file: designsafe.env
+      log_driver: syslog
+      log_opt:
+          tag: designsafe_main
+      hostname: {{django_container_hostname}}
+      ports:
+      - 8000:8000
+      links:
+          - memcached:memcached
+      volumes:
+          - /srv/www/designsafe/static:/srv/www/designsafe/static
+          - /srv/www/designsafe/media:/srv/www/designsafe/media
+          - /srv/www/designsafe/redis_data:/data
+          - /corral-repl/tacc/NHERI:/corral-repl/tacc/NHERI
+          - /srv/www/designsafe/client_secrets.json:/srv/www/designsafe/designsafe/client_secrets.json
+          - /srv/www/designsafe/conf/uwsgi/uwsgi.ini:{{uwsgi.ini_path}}
+          - /srv/www/designsafe/external_resource_secrets.py:/srv/www/designsafe/designsafe/settings/external_resource_secrets.py
+      command: newrelic-admin run-program /usr/local/bin/uwsgi --ini {{uwsgi.ini_path}}
