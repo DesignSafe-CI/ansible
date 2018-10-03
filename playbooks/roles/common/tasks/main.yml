@@ -41,6 +41,10 @@
       name: "pip"
       extra_args: "--upgrade"
 
+- name: Install docker-compose module
+  pip:
+      name: "docker-compose"
+
 - name: Install virtualenv
   command: pip install virtualenv
 

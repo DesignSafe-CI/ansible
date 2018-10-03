@@ -33,11 +33,12 @@
     dest: "{{uwsgi.ini_path}}"
 
 - name: Run docker-compose up
-  docker_service:
-      project_src: /srv/www/designsafe
-      pull: true
-      state: present
-
+  command: docker-compose -f /srv/www/designsafe/docker-compose.yml up -d
+  #  docker_service:
+  #      project_src: /srv/www/designsafe
+  #      pull: true
+  #      state: present
+  #
 - name: Wait for Django container to be running
   wait_for: port=8000
   when: (inventory_hostname != 'worker-prod' and inventory_hostname != 'worker-dev') and
