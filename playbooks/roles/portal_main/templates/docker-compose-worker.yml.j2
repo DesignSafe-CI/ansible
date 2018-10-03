@@ -8,7 +8,7 @@ services:
       logging:
           driver: syslog
           options:
-          tag: designsafe_workers_redis
+              tag: designsafe_workers_redis
       restart: always
   
   memcached:
@@ -21,7 +21,7 @@ services:
       logging:
           driver: syslog
           options:
-          tag: designsafe_workers
+              tag: designsafe_workers
       hostname: {{worker_container_hostname}}
       links:
           - redis:redis

@@ -10,7 +10,7 @@ services:
       logging:
           driver: syslog
           options:
-          tag: designsafe_websocket
+              tag: designsafe_websocket
       hostname: {{websocket_container_hostname}}
       ports:
           - 9000:9000
@@ -30,7 +30,7 @@ services:
       logging:
           driver: syslog
           options:
-          tag: designsafe_main
+              tag: designsafe_main
       hostname: {{django_container_hostname}}
       ports:
       - 8000:8000
