@@ -1,14 +1,14 @@
 ---
-- name: Copy External resource secret dummy.
-  copy: src=files/external_resource_secrets.py dest=/home/designsafe/portal/designsafe/settings/external_resource_secrets.py
-  when: (inventory_hostname != 'worker-prod' and inventory_hostname != 'worker-dev') and
-         'vagrant' not in group_names
-
 - name: Checkout DesignSafe-CI/portal.git repository
   git:
     repo: https://github.com/designsafe-ci/portal.git
     dest: /home/designsafe/portal
     version: '{{version}}'
+  when: (inventory_hostname != 'worker-prod' and inventory_hostname != 'worker-dev') and
+         'vagrant' not in group_names
+
+- name: Copy External resource secret dummy.
+  copy: src=files/external_resource_secrets.py dest=/home/designsafe/portal/designsafe/settings/external_resource_secrets.py
   when: (inventory_hostname != 'worker-prod' and inventory_hostname != 'worker-dev') and
          'vagrant' not in group_names
 
