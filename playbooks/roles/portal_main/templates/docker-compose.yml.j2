@@ -1,8 +1,8 @@
 version: "3"
 services:
-  restart: always
   memcached:
       image: memcached
+      restart: always
   
   websocket:
       image: designsafeci/portal:{{ version }}
@@ -21,6 +21,7 @@ services:
           - /srv/www/designsafe/redis_data:/data
           - /corral-repl/tacc/NHERI:/corral-repl/tacc/NHERI
       command: /usr/local/bin/uwsgi --ini /srv/www/designsafe/conf/uwsgi/uwsgi_websocket.ini
+      restart: always
   
   django:
       image: designsafeci/portal:{{ version }}
@@ -42,3 +43,4 @@ services:
           - /srv/www/designsafe/conf/uwsgi/uwsgi.ini:{{uwsgi.ini_path}}
           - /srv/www/designsafe/external_resource_secrets.py:/srv/www/designsafe/designsafe/settings/external_resource_secrets.py
       command: newrelic-admin run-program /usr/local/bin/uwsgi --ini {{uwsgi.ini_path}}
+      restart: always

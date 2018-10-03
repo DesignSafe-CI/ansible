@@ -1,14 +1,15 @@
 version: "3"
 services: 
-  restart: always
   redis:
       image: redis
       command: redis-server --appendonly yes
       ports:
           - 6379:6379
+      restart: always
   
   memcached:
       image: memcached
+      restart: always
   
   worker:
       image: designsafeci/portal:{{ version }}
@@ -28,3 +29,4 @@ services:
           - /srv/www/designsafe/client_secrets.json:/srv/www/designsafe/designsafe/settings/client_secrets.json
             - /srv/www/designsafe/external_resource_secrets.py:/srv/www/designsafe/designsafe/settings/external_resource_secrets.py
       command: ./bin/run-celery.sh
+      restart: always
