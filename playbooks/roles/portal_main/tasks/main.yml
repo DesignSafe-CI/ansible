@@ -51,6 +51,8 @@
 
 - name: Reinstall npm dependencies to avoid issues
   command: docker exec designsafe_django_1 su tg458981 -c "npm install && npm rebuild node-sass --force"
+  when: (inventory_hostname != 'worker-prod' and inventory_hostname != 'worker-dev') and
+         'vagrant' not in group_names
 
 - name: Run Django collectstatic
   command: docker exec designsafe_django_1 su tg458981 -c "npm run-script build && python manage.py collectstatic -c --noinput"
