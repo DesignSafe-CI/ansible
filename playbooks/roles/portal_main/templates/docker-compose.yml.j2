@@ -7,8 +7,9 @@ services:
   websocket:
       image: designsafeci/portal:{{ version }}
       env_file: designsafe.env
-      log_driver: syslog
-      log_opt:
+      logging:
+          driver: syslog
+          options:
           tag: designsafe_websocket
       hostname: {{websocket_container_hostname}}
       ports:
@@ -26,8 +27,9 @@ services:
   django:
       image: designsafeci/portal:{{ version }}
       env_file: designsafe.env
-      log_driver: syslog
-      log_opt:
+      logging:
+          driver: syslog
+          options:
           tag: designsafe_main
       hostname: {{django_container_hostname}}
       ports:

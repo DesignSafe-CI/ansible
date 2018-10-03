@@ -5,6 +5,10 @@ services:
       command: redis-server --appendonly yes
       ports:
           - 6379:6379
+      logging:
+          driver: syslog
+          options:
+          tag: designsafe_workers_redis
       restart: always
   
   memcached:
@@ -14,9 +18,10 @@ services:
   worker:
       image: designsafeci/portal:{{ version }}
       env_file: designsafe.env
-      log_driver: syslog
-      log_opt:
-          tag: designsafe_taskqueue
+      logging:
+          driver: syslog
+          options:
+          tag: designsafe_workers
       hostname: {{worker_container_hostname}}
       links:
           - redis:redis
