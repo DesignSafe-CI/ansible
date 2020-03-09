@@ -44,12 +44,17 @@
   when: (inventory_hostname != 'worker-prod' and inventory_hostname != 'worker-dev') and
          'vagrant' not in group_names
 
-- name: Run Django migrations
-  command: docker exec designsafe_django_1 python manage.py migrate
+- name: Run NPM install
+  command: docker exec -u tg458981 designsafe_django_1 npm install 
+  when: (inventory_hostname != "worker-prod" and inventory_hostname != "worker-dev") and
+         'vagrant' not in group_names
+
+- name: Run NPM build
+  command: docker exec -u tg458981 designsafe_django_1 npm run-script build 
   when: (inventory_hostname != "worker-prod" and inventory_hostname != "worker-dev") and
          'vagrant' not in group_names
 
 - name: Run Django collectstatic
-  command: docker exec designsafe_django_1 su tg458981 -c "npm run-script build && python manage.py collectstatic -c --noinput -i *babel* -i rxjs -i karma -i webpack -i demo"
+  command: docker exec -u tg458981 designsafe_django_1  /home/tg458981/portal_env/bin/python manage.py collectstatic -c --noinput -i *babel* -i rxjs -i karma -i webpack -i demo
   when: (inventory_hostname != "worker-prod" and inventory_hostname != "worker-dev") and
          'vagrant' not in group_names
