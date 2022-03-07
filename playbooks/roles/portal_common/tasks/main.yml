@@ -13,11 +13,11 @@
   file: path=/srv/www/designsafe/redis_data state=directory owner=999
 
 # Pull Application Images
-- name: Pull buildpack-deps image
-  docker_image:
-    name: buildpack-deps
-    tag: trusty
-    force: True
+#- name: Pull buildpack-deps image
+#  docker_image:
+#    name: buildpack-deps
+#    tag: trusty
+#    force: True
 
 - name: Pull redis image
   docker_image:
