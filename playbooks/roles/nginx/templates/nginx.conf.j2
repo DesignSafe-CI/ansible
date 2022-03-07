@@ -58,6 +58,8 @@ http {
         # Extra slashes matter to Agave
         merge_slashes off;
 
+	add_header Content-Security-Policy "frame-ancestors 'self' *.qiqochat.com" always;
+
         location /uploads {
             alias /corral-repl/tacc/NHERI/uploads;
         }
