@@ -60,6 +60,19 @@ services:
       labels:
           - "com.centurylinklabs.watchtower.enable=true"
 
+  userguide:
+      image: designsafeci/ds-user-guide:latest
+      volumes:
+          - /srv/www/designsafe/user-guide:/docs/site
+      command: ["mkdocs", "build"]
+      container_name: designsafe_user_guide
+      logging:
+          driver: syslog
+          options:
+              tag: designsafe_user_guide
+      labels:
+          - "com.centurylinklabs.watchtower.enable=true"
+
   watchtower:
       image: containrrr/watchtower
       environment:
