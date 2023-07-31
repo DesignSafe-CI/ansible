@@ -80,6 +80,14 @@ http {
             alias /srv/www/designsafe/robots.txt;
         }
 
+        location /ds-use-case {
+            alias /srv/www/designsafe/ds-use-case;
+        }
+
+        location /user-guide {
+            alias /srv/www/designsafe/user-guide;
+        }
+
         location / {
             include  /etc/nginx/uwsgi_params;
             uwsgi_pass  {{ server.uwsgi_upstream }};
