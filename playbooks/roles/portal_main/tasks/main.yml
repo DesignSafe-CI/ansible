@@ -53,3 +53,8 @@
   command: docker exec -u tg458981 designsafe_django_1 python manage.py collectstatic -c --noinput -i *babel* -i rxjs -i karma -i webpack -i demo
   when: (inventory_hostname != "worker-prod" and inventory_hostname != "worker-dev") and
          'vagrant' not in group_names
+
+- name: Restart uWSGI on container
+  command: "docker  exec -u tg458981 designsafe_django_1 uwsgi --reload {{uwsgi.pidfile}}"
+  when: (inventory_hostname != "worker-prod" and inventory_hostname != "worker-dev") and
+         'vagrant' not in group_names
