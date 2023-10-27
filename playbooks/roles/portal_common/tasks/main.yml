@@ -22,7 +22,7 @@
 - name: Pull redis image
   docker_image:
     name: redis
-    tag: 3.2
+    tag: 7
     force: True
 
 - name: Pull memcached image

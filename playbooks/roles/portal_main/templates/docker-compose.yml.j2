@@ -21,7 +21,7 @@ services:
           - /srv/www/designsafe/media:/srv/www/designsafe/media
           - /srv/www/designsafe/redis_data:/data
           - /corral-repl/tacc/NHERI:/corral-repl/tacc/NHERI
-      command: uwsgi --ini /srv/www/designsafe/conf/uwsgi/uwsgi_websocket.ini
+      command: daphne -b 0.0.0.0 -p 9000 --access-log - --proxy-headers designsafe.asgi:application
       restart: always
 
   django:
