@@ -81,7 +81,7 @@ http {
         }
 
         location /ds-use-case {
-            alias /srv/www/designsafe/ds-use-case;
+            return 301 /user-guide/usecases/;
         }
 
         location /user-guide {
